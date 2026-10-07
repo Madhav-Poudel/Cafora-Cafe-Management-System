@@ -2,7 +2,7 @@
 
 import { useMemo, useState, type FormEvent } from 'react'
 import Link from 'next/link'
-import { ArrowDownUp, Check, CirclePlus, Download, Ellipsis, Eye, EyeOff, Layers3, ListFilter, Pencil, Plus, Search, UtensilsCrossed } from 'lucide-react'
+import { ArrowDownUp, Check, CirclePlus, Download, Ellipsis, Eye, EyeOff, Layers3, ListFilter, Pencil, Plus, QrCode, Search, UtensilsCrossed } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { useDemoStore } from '@/components/servepilot/demo-store'
 import { formatNpr, type MenuProduct } from '@/components/servepilot/data'
@@ -107,7 +107,7 @@ export function MenuView() {
         eyebrow="Menu management"
         title="Menu items"
         description="Keep your menu, prices and availability in sync across every service channel."
-        action={<><Link className="inline-flex h-10 items-center gap-2 rounded-lg border border-border bg-white px-3.5 text-sm font-medium text-foreground transition-colors hover:bg-muted" href="/app/menu/categories"><Layers3 aria-hidden="true" className="size-4" /> Categories</Link><Button data-icon="inline-start" onClick={() => setEditor('new')}><Plus /> Add item</Button></>
+        action={<><Link className="inline-flex h-10 items-center gap-2 rounded-lg border border-border bg-white px-3.5 text-sm font-medium text-foreground transition-colors hover:bg-muted" href="/app/menu/categories"><Layers3 aria-hidden="true" className="size-4" /> Categories</Link><Link className="inline-flex h-10 items-center gap-2 rounded-lg border border-border bg-white px-3.5 text-sm font-medium text-foreground transition-colors hover:bg-muted" href="/app/menu/qr"><QrCode aria-hidden="true" className="size-4" /> QR menu</Link><Button data-icon="inline-start" onClick={() => setEditor('new')}><Plus /> Add item</Button></>
         }
       />
       <div className="mb-4 grid gap-3 sm:grid-cols-[minmax(0,1fr)_auto] sm:items-center">
@@ -190,7 +190,7 @@ export function MenuQuickFilter() {
 }
 
 export function MenuEmptyAction() {
-  return <Button asChild={false} variant="outline"><Search aria-hidden="true" /> Find an item</Button>
+  return <Button variant="outline"><Search aria-hidden="true" /> Find an item</Button>
 }
 
 export function MenuDownloadAction() {

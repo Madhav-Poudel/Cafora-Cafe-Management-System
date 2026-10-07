@@ -72,6 +72,13 @@ const navGroups: AppNavGroup[] = [
 ]
 
 const allNavItems = navGroups.flatMap((group) => group.items)
+
+function matchesNavigationPath(pathname: string, item: AppNavItem) {
+  if (pathname === '/app' && item.href === '/app/dashboard') return true
+  const routeBase = item.href === '/app/menu/items' ? '/app/menu' : item.href
+  return pathname === routeBase || pathname.startsWith(`${routeBase}/`)
+}
+
 const notifications = [
   { id: 'order', icon: ClipboardList, title: 'New order received', detail: 'SP-2487 · Delivery · 2 min ago', tone: 'bg-accent text-accent-foreground' },
   { id: 'stock', icon: Boxes, title: 'Stock needs a look', detail: 'Paneer is out of stock · 18 min ago', tone: 'bg-[#fff1df] text-[#9a5118]' },
@@ -147,7 +154,7 @@ export function ServePilotAppShell({ children }: { children: ReactNode }) {
             {!collapsed && <p className="mb-2 px-3 text-[9px] font-semibold uppercase tracking-[0.13em] text-muted-foreground/80">{group.label}</p>}
             <nav aria-label={group.label} className="flex flex-col gap-1">
               {group.items.map((item) => {
-                const active = pathname === item.href || (item.href !== '/app/dashboard' && pathname.startsWith(`${item.href}/`))
+                const active = matchesNavigationPath(pathname, item)
                 return <NavigationLink key={item.href} item={item} active={active} collapsed={collapsed} onNavigate={closeMobileNav} />
               })}
             </nav>
@@ -174,7 +181,7 @@ export function ServePilotAppShell({ children }: { children: ReactNode }) {
       <div className={`min-h-screen transition-[padding] duration-200 ${collapsed ? 'lg:pl-[76px]' : 'lg:pl-[256px]'}`}>
         <header className="sticky top-0 z-30 flex h-[68px] items-center gap-3 border-b border-border bg-white/95 px-4 backdrop-blur sm:px-6">
           <button aria-label="Open navigation" className="grid size-9 shrink-0 place-items-center rounded-lg border border-border text-muted-foreground hover:bg-muted lg:hidden" onClick={() => setDrawerOpen(true)}><Menu className="size-4" /></button>
-          <div className="hidden min-w-0 items-center gap-2 text-[11px] text-muted-foreground sm:flex"><span className="text-foreground">Workspace</span><span aria-hidden="true">/</span><span className="truncate font-medium text-foreground">{allNavItems.find((item) => pathname === item.href || pathname.startsWith(`${item.href}/`))?.label ?? 'Dashboard'}</span></div>
+          <div className="hidden min-w-0 items-center gap-2 text-[11px] text-muted-foreground sm:flex"><span className="text-foreground">Workspace</span><span aria-hidden="true">/</span><span className="truncate font-medium text-foreground">{allNavItems.find((item) => matchesNavigationPath(pathname, item))?.label ?? 'Dashboard'}</span></div>
 
           <div className="relative ml-auto hidden w-full max-w-[260px] md:block">
             <label className="flex h-9 items-center gap-2 rounded-lg border border-border bg-[#fbfcfb] px-3 text-muted-foreground focus-within:border-primary/40 focus-within:ring-2 focus-within:ring-primary/10">
