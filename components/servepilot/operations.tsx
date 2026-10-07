@@ -114,7 +114,7 @@ export function OrdersView() {
 type CartLine = { productId: string; quantity: number }
 
 export function PosView() {
-  const { menuItems, tables, addOrder, updateTable, showToast } = useDemoStore()
+  const { orders, menuItems, tables, addOrder, updateTable, showToast } = useDemoStore()
   const [activeCategory, setActiveCategory] = useState('All items')
   const [search, setSearch] = useState('')
   const [cart, setCart] = useState<CartLine[]>([])
@@ -161,6 +161,7 @@ export function PosView() {
       items: selectedProducts.map((line) => `${line.product.name}${line.quantity > 1 ? ` × ${line.quantity}` : ''}`).join(', '),
       amount: Math.round(total),
       paymentStatus: paid ? 'Paid' : 'Pending',
+      paymentMethod: paid ? (splitPayment ? `${paymentMethod} + ${splitMethod}` : paymentMethod) : undefined,
       status: 'New',
       lines: selectedProducts.map((line) => ({ name: line.product.name, quantity: line.quantity, price: line.product.price })),
     })

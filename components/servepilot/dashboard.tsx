@@ -5,6 +5,7 @@ import {
   Activity,
   ArrowRight,
   ArrowUpRight,
+  BarChart3,
   Boxes,
   ClipboardList,
   Clock3,

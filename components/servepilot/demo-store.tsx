@@ -70,6 +70,7 @@ interface DemoStoreValue {
   receivePurchase: (id: string) => void
   addSupplier: (supplier: Omit<DemoSupplier, 'id'>) => void
   addStaff: (member: Omit<DemoStaff, 'id'>) => void
+  updateStaff: (id: string, changes: Partial<DemoStaff>) => void
 }
 
 const DemoStoreContext = createContext<DemoStoreValue | null>(null)
@@ -192,6 +193,10 @@ export function DemoStoreProvider({ children }: { children: ReactNode }) {
     setStaff((current) => [{ ...member, id: makeId('ST') }, ...current])
   }, [])
 
+  const updateStaff = useCallback((id: string, changes: Partial<DemoStaff>) => {
+    setStaff((current) => current.map((member) => member.id === id ? { ...member, ...changes } : member))
+  }, [])
+
   const value = useMemo<DemoStoreValue>(() => ({
     orders,
     menuItems,
@@ -226,6 +231,7 @@ export function DemoStoreProvider({ children }: { children: ReactNode }) {
     receivePurchase,
     addSupplier,
     addStaff,
+    updateStaff,
   }), [
     orders,
     menuItems,
@@ -259,6 +265,7 @@ export function DemoStoreProvider({ children }: { children: ReactNode }) {
     receivePurchase,
     addSupplier,
     addStaff,
+    updateStaff,
   ])
 
   return <DemoStoreContext.Provider value={value}>{children}</DemoStoreContext.Provider>

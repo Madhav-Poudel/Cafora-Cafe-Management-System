@@ -18,6 +18,7 @@ export interface DemoOrder {
   items: string
   amount: number
   paymentStatus: PaymentStatus
+  paymentMethod?: string
   status: OrderStatus
   lines?: OrderLine[]
   specialInstructions?: string
