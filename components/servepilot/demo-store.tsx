@@ -100,9 +100,9 @@ export function DemoStoreProvider({ children }: { children: ReactNode }) {
 
   const addOrder = useCallback((order: Omit<DemoOrder, 'id'>) => {
     const savedOrder = { ...order, id: makeId('SP') }
-    setOrders((current) => [savedOrder, ...current])
+    showToast('Orders are disabled until your menu and workspace are configured.')
     return savedOrder
-  }, [])
+  }, [showToast])
 
   const updateOrderStatus = useCallback((id: string, status: OrderStatus) => {
     setOrders((current) => current.map((order) => order.id === id ? { ...order, status } : order))

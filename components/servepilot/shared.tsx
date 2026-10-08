@@ -16,7 +16,7 @@ export function BrandMark({ compact = false }: { compact?: boolean }) {
       </span>
       {!compact && (
         <span className="text-[18px] font-semibold tracking-[-0.04em] text-foreground">
-          Serve<span className="font-normal text-muted-foreground">Pilot</span>
+          Cafora
         </span>
       )}
     </span>
@@ -104,8 +104,8 @@ export function MetricCard({
   const toneClass = {
     teal: 'bg-secondary text-primary',
     orange: 'bg-accent text-accent-foreground',
-    blue: 'bg-[#edf2ff] text-info',
-    green: 'bg-[#e8f4ec] text-success',
+    blue: 'bg-secondary text-info',
+    green: 'bg-secondary text-success',
   }[tone]
 
   return (
@@ -138,15 +138,15 @@ export function StatusBadge({ status }: { status: string }) {
   const normalized = status.toLowerCase()
   const className =
     normalized.includes('paid') || normalized === 'completed' || normalized === 'available' || normalized === 'active'
-      ? 'bg-[#e8f4ec] text-[#32734d]'
+      ? 'bg-secondary text-success'
       : normalized.includes('pending') || normalized.includes('new') || normalized.includes('reserved') || normalized.includes('ordered')
-        ? 'bg-[#fff1df] text-[#9a5118]'
+        ? 'bg-accent text-accent-foreground'
         : normalized.includes('prepar') || normalized.includes('ready') || normalized.includes('shift')
-          ? 'bg-[#edf2ff] text-[#3b62c7]'
+          ? 'bg-secondary text-info'
           : normalized.includes('cancel') || normalized.includes('out') || normalized.includes('refunded') || normalized.includes('hold')
-            ? 'bg-[#fceceb] text-[#ad4541]'
+            ? 'bg-accent text-destructive'
             : normalized.includes('clean') || normalized.includes('break')
-              ? 'bg-[#f0f3f1] text-[#68737a]'
+              ? 'bg-muted text-muted-foreground'
               : 'bg-secondary text-secondary-foreground'
 
   return (
@@ -168,7 +168,7 @@ export function SearchField({
   className?: string
 }) {
   return (
-    <label className={cn('flex h-10 min-w-0 items-center gap-2.5 rounded-lg border border-border bg-white px-3 text-muted-foreground transition-colors focus-within:border-primary/40 focus-within:ring-2 focus-within:ring-primary/10', className)}>
+    <label className={cn('flex h-10 min-w-0 items-center gap-2.5 rounded-lg border border-border bg-background px-3 text-muted-foreground transition-colors focus-within:border-primary/40 focus-within:ring-2 focus-within:ring-primary/10', className)}>
       <Search className="size-4 shrink-0" aria-hidden="true" />
       <span className="sr-only">{placeholder}</span>
       <input
@@ -202,7 +202,7 @@ export function SelectField({
         aria-label={label}
         value={value}
         onChange={(event) => onChange(event.target.value)}
-        className="h-10 w-full appearance-none rounded-lg border border-border bg-white py-2 pl-3 pr-9 text-sm text-foreground outline-none transition-colors focus:border-primary/40 focus:ring-2 focus:ring-primary/10"
+        className="h-10 w-full appearance-none rounded-lg border border-border bg-background py-2 pl-3 pr-9 text-sm text-foreground outline-none transition-colors focus:border-primary/40 focus:ring-2 focus:ring-primary/10"
       >
         {options.map((option) => <option key={option} value={option}>{option}</option>)}
       </select>

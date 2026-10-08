@@ -19,7 +19,7 @@ import { useDemoStore } from './demo-store'
 import { formatNpr, menuCategories, orderTypes, paymentMethods, revenueByDay } from './data'
 import { MetricCard, PageHeader, Panel, PanelHeading, StatusBadge, TableScroller, controlClassName } from './shared'
 
-const chartColors = ['#173b3f', '#f28c28', '#4b7bec', '#3f8f62', '#8a6baf']
+const chartColors = ['#dc143c', '#e11d48', '#9f1239', '#f43f5e', '#fb7185']
 
 type ReportRange = 'Today' | 'Last 7 days' | 'Last 30 days'
 
@@ -61,7 +61,7 @@ export function ReportsView() {
     const url = URL.createObjectURL(new Blob([csv], { type: 'text/csv;charset=utf-8' }))
     const link = document.createElement('a')
     link.href = url
-    link.download = 'servepilot-report-demo.csv'
+    link.download = 'cafora-report-demo.csv'
     link.click()
     URL.revokeObjectURL(url)
   }
@@ -96,7 +96,7 @@ export function ReportsView() {
               <XAxis axisLine={false} dataKey="day" dy={8} tick={{ fill: '#7d8987', fontSize: 10 }} tickLine={false} />
               <YAxis axisLine={false} tick={{ fill: '#7d8987', fontSize: 9 }} tickFormatter={(value: number) => `${Math.round(value / 1000)}k`} tickLine={false} />
               <Tooltip formatter={(value) => [formatNpr(Number(value)), 'Sales']} />
-              <Bar dataKey="revenue" fill="#173b3f" radius={[5, 5, 0, 0]} />
+              <Bar dataKey="revenue" fill="#dc143c" radius={[5, 5, 0, 0]} />
             </BarChart>
           </ResponsiveContainer>
         </div>

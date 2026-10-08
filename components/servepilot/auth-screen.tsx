@@ -18,23 +18,59 @@ const proofPoints = [
 export function AuthScreen({ mode }: { mode: AuthMode }) {
   const router = useRouter()
   const [notice, setNotice] = useState('')
+  const [isSubmitting, setIsSubmitting] = useState(false)
   const [showPassword, setShowPassword] = useState(false)
   const [isComplete, setIsComplete] = useState(false)
   const isSignup = mode === 'signup'
   const isForgot = mode === 'forgot'
   const isVerify = mode === 'verify'
 
-  function handleSubmit(event: FormEvent<HTMLFormElement>) {
+  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
+    setNotice('')
+    setIsSubmitting(true)
+    const form = new FormData(event.currentTarget)
+    const email = String(form.get('email') ?? '').trim()
+    const password = String(form.get('password') ?? '')
     if (mode === 'login') {
-      router.push('/app/dashboard')
+      const response = await fetch('/api/auth/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, password }),
+      })
+      if (!response.ok) {
+        const result = await response.json().catch(() => null)
+        setNotice(result?.error ?? 'Unable to sign in right now. Please try again.')
+        setIsSubmitting(false)
+        return
+      }
+      const result = await response.json()
+      router.push(result.user?.onboardingCompleted ? '/app/dashboard' : '/onboarding')
       return
     }
     if (mode === 'signup') {
-      router.push('/onboarding')
+      const response = await fetch('/api/auth/signup', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name: String(form.get('name') ?? '').trim(),
+          restaurant: String(form.get('restaurant') ?? '').trim(),
+          email,
+          phone: String(form.get('phone') ?? '').trim(),
+          password,
+        }),
+      })
+      if (!response.ok) {
+        const result = await response.json().catch(() => null)
+        setNotice(result?.error ?? 'Unable to create your workspace right now.')
+        setIsSubmitting(false)
+        return
+      }
+      router.push('/login?created=1')
       return
     }
     setIsComplete(true)
+    setIsSubmitting(false)
   }
 
   const heading = isSignup ? 'Create your workspace' : isForgot ? 'Reset your password' : isVerify ? 'Check your inbox' : 'Welcome back'
@@ -52,25 +88,25 @@ export function AuthScreen({ mode }: { mode: AuthMode }) {
         <div className="absolute right-[-120px] top-[22%] size-[360px] rounded-full border border-white/10" aria-hidden="true" />
         <div className="absolute right-[-70px] top-[29%] size-[250px] rounded-full border border-white/10" aria-hidden="true" />
         <div className="relative z-10">
-          <Link href="/" aria-label="ServePilot home" className="inline-flex items-center gap-3">
+          <Link href="/" aria-label="Cafora home" className="inline-flex items-center gap-3">
             <span className="grid size-10 place-items-center rounded-xl bg-white p-1"><BrandMark compact /></span>
-            <span className="text-lg font-semibold tracking-[-0.04em]">ServePilot</span>
+            <span className="text-lg font-semibold tracking-[-0.04em]">Cafora</span>
           </Link>
           <div className="mt-24 max-w-lg">
             <p className="text-[10px] font-semibold uppercase tracking-[0.15em] text-[#f7bd76]">The calm behind a great service</p>
             <h1 className="mt-4 text-[43px] font-semibold leading-[1.04] tracking-[-0.06em] xl:text-[52px]">A clearer day starts with one shared view.</h1>
-            <p className="mt-5 max-w-md text-sm leading-7 text-white/70">ServePilot brings orders, kitchen, stock, and people together so your team can focus on the moments that matter.</p>
+            <p className="mt-5 max-w-md text-sm leading-7 text-white/70">Cafora brings orders, kitchen, stock, and people together so your team can focus on the moments that matter.</p>
           </div>
           <div className="mt-12 flex max-w-lg flex-col gap-3">
             {proofPoints.map(({ icon: Icon, title, text }) => <div key={title} className="flex items-center gap-3 rounded-xl border border-white/10 bg-white/[0.06] p-3.5"><span className="grid size-9 shrink-0 place-items-center rounded-lg bg-white/10 text-[#f7bd76]"><Icon className="size-4" /></span><span><span className="block text-xs font-semibold">{title}</span><span className="mt-1 block text-[10px] text-white/60">{text}</span></span><Check className="ml-auto size-4 text-[#93c8a3]" aria-hidden="true" /></div>)}
           </div>
         </div>
-        <p className="relative z-10 text-[10px] text-white/55">Made with care in Kathmandu <span className="px-1">·</span> ServePilot Technologies Pvt. Ltd.</p>
+        <p className="relative z-10 text-[10px] text-white/55">Made with care in Kathmandu <span className="px-1">·</span> Cafora Technologies Pvt. Ltd.</p>
       </section>
 
       <section className="flex min-h-screen flex-col px-5 py-6 sm:px-8 lg:px-10 xl:px-16">
         <div className="flex items-center justify-between">
-          <Link href="/" aria-label="ServePilot home" className="lg:hidden"><BrandMark /></Link>
+          <Link href="/" aria-label="Cafora home" className="lg:hidden"><BrandMark /></Link>
           <Link href="/" aria-label="Back to website" className="ml-auto inline-flex items-center gap-2 text-xs font-semibold text-muted-foreground transition-colors hover:text-primary"><ArrowLeft className="size-3.5" /> Back to website</Link>
         </div>
         <div className="flex flex-1 items-center justify-center py-12">
@@ -83,7 +119,7 @@ export function AuthScreen({ mode }: { mode: AuthMode }) {
               <div className="mt-8 rounded-xl border border-border bg-[#f7f8f6] p-5">
                 <span className="grid size-11 place-items-center rounded-xl bg-secondary text-primary"><ShieldCheck className="size-5" /></span>
                 <p className="mt-4 text-sm font-semibold">One quick step</p>
-                <p className="mt-2 text-xs leading-5 text-muted-foreground">Open the message from ServePilot and follow its link to continue. This preview does not send real email.</p>
+                <p className="mt-2 text-xs leading-5 text-muted-foreground">Open the message from Cafora and follow its link to continue. This preview does not send real email.</p>
                 <Link href="/login" className="mt-5 inline-flex h-10 items-center justify-center rounded-lg bg-primary px-4 text-xs font-semibold text-white hover:bg-brand-800">Back to sign in</Link>
               </div>
             ) : (
@@ -99,14 +135,14 @@ export function AuthScreen({ mode }: { mode: AuthMode }) {
                 {isSignup && <label className="flex items-start gap-2 text-[11px] leading-5 text-muted-foreground"><input type="checkbox" required className="mt-1 size-3.5 shrink-0 rounded border-border accent-primary" />I agree to the <Link href="/terms" className="font-semibold text-primary">Terms of Service</Link> and <Link href="/privacy" className="font-semibold text-primary">Privacy Policy</Link>.</label>}
                 {notice && <p aria-live="polite" className="rounded-lg border border-[#f1d7b7] bg-accent px-3 py-2.5 text-xs leading-5 text-accent-foreground">{notice}</p>}
                 {isComplete && <p role="status" className="rounded-lg border border-[#cce2d2] bg-[#e8f4ec] px-3 py-2.5 text-xs leading-5 text-[#32734d]">Demo mode: no email was sent. You can continue into the sample workspace.</p>}
-                <Button className="mt-1 h-11 w-full" type="submit" size="lg">{isSignup ? 'Create account' : isForgot ? isComplete ? 'Send another link' : 'Send reset link' : 'Sign in'} <ArrowRight data-icon="inline-end" /></Button>
-                {isSignup ? <p className="text-center text-xs text-muted-foreground">Already have a workspace? <Link href="/login" className="font-semibold text-primary">Sign in</Link></p> : mode === 'login' ? <p className="text-center text-xs text-muted-foreground">New to ServePilot? <Link href="/signup" className="font-semibold text-primary">Start a free trial</Link></p> : <Link href="/login" className="text-center text-xs font-semibold text-primary">Return to sign in</Link>}
+                <Button className="mt-1 h-11 w-full" disabled={isSubmitting} type="submit" size="lg">{isSubmitting ? 'Please wait…' : isSignup ? 'Create account' : isForgot ? isComplete ? 'Send another link' : 'Send reset link' : 'Sign in'} {!isSubmitting && <ArrowRight data-icon="inline-end" />}</Button>
+                {isSignup ? <p className="text-center text-xs text-muted-foreground">Already have a workspace? <Link href="/login" className="font-semibold text-primary">Sign in</Link></p> : mode === 'login' ? <p className="text-center text-xs text-muted-foreground">New to Cafora? <Link href="/signup" className="font-semibold text-primary">Sign up</Link></p> : <Link href="/login" className="text-center text-xs font-semibold text-primary">Return to sign in</Link>}
               </form>
             )}
-            <p className="mt-8 border-t border-border pt-5 text-center text-[10px] leading-5 text-muted-foreground">This is a product preview. Sign-in and account creation are not connected to a real service.</p>
+            <p className="mt-8 border-t border-border pt-5 text-center text-[10px] leading-5 text-muted-foreground">Your account is handled by the Cafora Node.js backend. MongoDB persistence can be added later.</p>
           </div>
         </div>
-        <div className="flex items-center justify-between text-[10px] text-muted-foreground"><span>© 2026 ServePilot</span><span>Privacy <span className="px-1">·</span> Terms <span className="px-1">·</span> Help</span></div>
+        <div className="flex items-center justify-between text-[10px] text-muted-foreground"><span>© 2026 Cafora</span><span>Privacy <span className="px-1">·</span> Terms <span className="px-1">·</span> Help</span></div>
       </section>
     </main>
   )

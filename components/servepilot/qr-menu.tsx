@@ -14,7 +14,7 @@ function QrMenuWorkspaceView() {
   const [table, setTable] = useState(tables[0]?.label ?? 'T-01')
   const [origin, setOrigin] = useState('')
   const [showPrices, setShowPrices] = useState(true)
-  const menuUrl = `${origin || 'https://servepilot.demo'}/menu/${encodeURIComponent(table)}`
+  const menuUrl = `${origin || 'https://cafora.demo'}/menu/${encodeURIComponent(table)}`
 
   useEffect(() => {
     setOrigin(window.location.origin)
@@ -38,7 +38,7 @@ function QrMenuWorkspaceView() {
           <h2 className="mt-4 text-lg font-semibold tracking-[-0.03em]">Your menu, one scan away</h2>
           <p className="mt-2 max-w-sm text-xs leading-5 text-muted-foreground">Each table gets a link that opens the live demo menu with the right table already selected.</p>
           <div className="mt-5 w-full max-w-xs text-left"><LabeledField htmlFor="qr-table" label="Table QR code"><select className={controlClassName} id="qr-table" onChange={(event) => setTable(event.target.value)} value={table}>{tables.map((item) => <option key={item.id} value={item.label}>{item.label} · {item.section}</option>)}</select></LabeledField></div>
-          <div className="mt-5 rounded-2xl border border-border bg-white p-4"><QRCodeSVG aria-label={`QR code for the menu at ${table}`} bgColor="#ffffff" fgColor="#173b3f" includeMargin level="M" size={196} title={`ServePilot menu for ${table}`} value={menuUrl} /></div>
+          <div className="mt-5 rounded-2xl border border-border bg-white p-4"><QRCodeSVG aria-label={`QR code for the menu at ${table}`} bgColor="#ffffff" fgColor="#dc143c" includeMargin level="M" size={196} title={`Cafora menu for ${table}`} value={menuUrl} /></div>
           <div className="mt-4 w-full rounded-lg bg-[#f7f8f6] px-3 py-2.5 text-left"><p className="text-[9px] font-semibold uppercase tracking-[0.08em] text-muted-foreground">Public menu link</p><p className="mt-1 break-all text-[11px] font-medium text-primary">{menuUrl}</p></div>
           <div className="mt-4 flex w-full flex-wrap justify-center gap-2"><Button onClick={copyLink} size="sm" variant="outline"><Copy data-icon="inline-start" /> Copy link</Button><Link className="inline-flex h-8 items-center justify-center gap-2 rounded-lg bg-primary px-3 text-xs font-medium text-primary-foreground transition-colors hover:bg-brand-800" href={`/menu/${encodeURIComponent(table)}`} rel="noreferrer" target="_blank">Preview menu <ExternalLink className="size-3.5" /></Link></div>
         </div>
@@ -51,7 +51,7 @@ function QrMenuWorkspaceView() {
       <Panel className="overflow-hidden">
         <PanelHeading title="Guest preview" detail="What the QR code opens on a phone" />
         <div className="mx-auto my-5 w-full max-w-[390px] overflow-hidden rounded-[28px] border-[7px] border-[#202927] bg-[#f7f8f6] shadow-sm">
-          <div className="flex items-center justify-between bg-white px-4 py-3"><span className="text-xs font-semibold">ServePilot</span><span className="rounded-full bg-secondary px-2.5 py-1 text-[9px] font-semibold text-primary">{table}</span></div>
+          <div className="flex items-center justify-between bg-white px-4 py-3"><span className="text-xs font-semibold">Cafora</span><span className="rounded-full bg-secondary px-2.5 py-1 text-[9px] font-semibold text-primary">{table}</span></div>
           <div className="bg-primary px-4 py-5 text-white"><p className="text-[9px] font-semibold uppercase tracking-[0.12em] text-white/70">Thamel Kitchen</p><h3 className="mt-1 text-lg font-semibold">A little taste of Nepal</h3><p className="mt-1 text-[10px] text-white/75">Freshly made, just for your table.</p></div>
           <div className="subtle-scrollbar flex gap-2 overflow-x-auto bg-white px-3 py-3">{['All items', ...categories].map((item, index) => <span className={`shrink-0 rounded-full px-3 py-1.5 text-[9px] font-semibold ${index === 0 ? 'bg-primary text-white' : 'bg-muted text-muted-foreground'}`} key={item}>{item}</span>)}</div>
           <div className="flex max-h-[410px] flex-col gap-2.5 overflow-y-auto p-3">{menuItems.filter((item) => item.available).slice(0, 5).map((item) => <div className="flex items-center gap-3 rounded-xl border border-border bg-white p-2.5" key={item.id}><img alt="" className="size-14 rounded-lg object-cover" height="56" src={item.image} width="56" /><span className="min-w-0 flex-1"><span className="block truncate text-[10px] font-semibold">{item.name}</span><span className="mt-1 block text-[9px] text-muted-foreground">{item.category}</span>{showPrices && <span className="numeric mt-1 block text-[10px] font-semibold text-primary">{formatNpr(item.price)}</span>}</span><Plus className="size-4 shrink-0 text-primary" /></div>)}</div>
@@ -157,7 +157,7 @@ function PublicMenuContent({ table }: { table: string }) {
   const renderCart = (idPrefix: string) => <PublicCart guest={guest} idPrefix={idPrefix} lines={selectedLines} note={note} onQuantity={adjustQuantity} onSubmit={placeOrder} setGuest={setGuest} setNote={setNote} total={total} />
 
   return <main className="min-h-screen bg-background pb-24 lg:pb-10">
-    <header className="border-b border-border bg-white"><div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-3 sm:px-6"><Link className="flex items-center gap-2 text-sm font-semibold tracking-[-0.03em]" href="/"><span className="grid size-8 place-items-center rounded-lg bg-primary text-primary-foreground"><QrCode className="size-4" /></span>ServePilot</Link><span className="rounded-lg bg-secondary px-3 py-1.5 text-[10px] font-semibold text-primary">Table {menuTable}</span></div></header>
+    <header className="border-b border-border bg-white"><div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-3 sm:px-6"><Link className="flex items-center gap-2 text-sm font-semibold tracking-[-0.03em]" href="/"><span className="grid size-8 place-items-center rounded-lg bg-primary text-primary-foreground"><QrCode className="size-4" /></span>Cafora</Link><span className="rounded-lg bg-secondary px-3 py-1.5 text-[10px] font-semibold text-primary">Table {menuTable}</span></div></header>
     <div className="mx-auto grid grid-cols-1 max-w-6xl items-start gap-5 px-4 py-5 sm:px-6 lg:grid-cols-[minmax(0,1fr)_340px] lg:gap-8 lg:py-8">
       <section className="min-w-0">
         <div className="rounded-2xl bg-primary px-5 py-6 text-white sm:px-7 sm:py-8"><p className="text-[10px] font-semibold uppercase tracking-[0.14em] text-white/70">Thamel Kitchen · Kathmandu</p><h1 className="mt-2 text-[26px] font-semibold leading-tight tracking-[-0.05em] sm:text-3xl">A little taste of Nepal.</h1><p className="mt-2 max-w-lg text-xs leading-5 text-white/75">Freshly made favorites, prepared with care. Browse the menu and send your order straight to our team.</p><div className="mt-4 flex items-center gap-2 text-[10px] text-white/75"><span className="size-1.5 rounded-full bg-[#94d2a9]" />Open for dine-in <span className="px-1">·</span> 14–22 min average prep</div></div>

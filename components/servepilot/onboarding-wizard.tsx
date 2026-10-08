@@ -35,14 +35,15 @@ export function OnboardingWizard() {
     setNewItem('')
   }
 
-  function finishSetup() {
+  async function finishSetup() {
+    await fetch('/api/auth/onboarding', { method: 'POST' })
     router.push('/app/dashboard')
   }
 
   return (
     <main className="min-h-screen bg-white">
       <header className="flex h-[68px] items-center justify-between border-b border-border px-5 sm:px-8 lg:px-12">
-        <Link href="/" aria-label="ServePilot home"><BrandMark /></Link>
+        <Link href="/" aria-label="Cafora home"><BrandMark /></Link>
         <p className="text-xs text-muted-foreground">Setting up your workspace <span className="px-1">·</span> <span className="font-semibold text-foreground">Step {step + 1} of {steps.length}</span></p>
         <Link href="/app/dashboard" className="text-xs font-semibold text-muted-foreground hover:text-primary">Skip setup</Link>
       </header>

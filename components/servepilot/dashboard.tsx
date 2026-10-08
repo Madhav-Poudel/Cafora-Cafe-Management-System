@@ -32,7 +32,7 @@ import {
 } from 'recharts'
 import { Button } from '@/components/ui/button'
 import { useDemoStore } from './demo-store'
-import { formatNpr, initialOrders, paymentMix, revenueByDay } from './data'
+import { formatNpr, paymentMix, revenueByDay } from './data'
 import { MetricCard, PageHeader, Panel, PanelHeading, StatusBadge, TableScroller } from './shared'
 
 const topProducts = [
@@ -44,17 +44,16 @@ const topProducts = [
 
 function ChartTooltip({ active, payload, label }: { active?: boolean; payload?: Array<{ value: number }>; label?: string }) {
   if (!active || !payload?.length) return null
-  return <div className="rounded-lg border border-border bg-white px-3 py-2 shadow-lg"><p className="text-[10px] font-medium text-muted-foreground">{label}</p><p className="mt-1 text-xs font-semibold">{formatNpr(payload[0].value)}</p></div>
+  return <div className="rounded-lg border border-border bg-card px-3 py-2 shadow-lg"><p className="text-[10px] font-medium text-muted-foreground">{label}</p><p className="mt-1 text-xs font-semibold">{formatNpr(payload[0].value)}</p></div>
 }
 
 export function DashboardView() {
-  const { orders, inventory, tables, customers, branch } = useDemoStore()
-  const addedOrders = Math.max(0, orders.length - initialOrders.length)
-  const additionalSales = orders.slice(0, addedOrders).reduce((total, order) => total + order.amount, 0)
+  const { orders, inventory, tables, customers, branch, showToast } = useDemoStore()
+  const additionalSales = orders.reduce((total, order) => total + order.amount, 0)
   const lowStock = inventory.filter((item) => item.stock <= item.reorderLevel)
   const occupiedTables = tables.filter((table) => table.status === 'Occupied').length
+  const currentSales = additionalSales
   const paidOrders = orders.filter((order) => order.paymentStatus === 'Paid').length
-  const currentSales = 52480 + additionalSales
 
   return (
     <div className="dashboard-container">
@@ -62,19 +61,19 @@ export function DashboardView() {
         eyebrow="Wednesday, October 7, 2026"
         title="Good afternoon, Aarya."
         description={`Here is what is happening at ${branch} today.`}
-        action={<><Button variant="outline" size="sm" onClick={() => window.print()}><Clock3 data-icon="inline-start" />Today</Button><Link href="/app/pos" className="inline-flex h-8 items-center gap-1.5 rounded-lg bg-primary px-3 text-xs font-semibold text-white transition-colors hover:bg-brand-800"><Plus className="size-3.5" />New order</Link></>}
+        action={<><Button variant="outline" size="sm" onClick={() => window.print()}><Clock3 data-icon="inline-start" />Today</Button><button type="button" onClick={() => showToast('Orders are disabled until your menu and workspace are configured.')} className="inline-flex h-8 items-center gap-1.5 rounded-lg bg-muted px-3 text-xs font-semibold text-muted-foreground"><Plus className="size-3.5" />New order</button></>}
       />
 
       <section aria-label="Today's key performance indicators" className="grid grid-cols-2 gap-3 xl:grid-cols-4">
         <MetricCard label="Net sales" value={formatNpr(currentSales)} change="12.8%" caption="vs. last Wednesday" icon={<Wallet className="size-4" />} tone="teal" />
-        <MetricCard label="Orders today" value={String(79 + addedOrders)} change="8.2%" caption="vs. last Wednesday" icon={<ClipboardList className="size-4" />} tone="orange" />
-        <MetricCard label="Average order value" value={formatNpr(Math.round(currentSales / Math.max(1, 79 + addedOrders)))} change="4.1%" caption="vs. last Wednesday" icon={<CreditCard className="size-4" />} tone="blue" />
-        <MetricCard label="Guests served" value={`${42 + Math.max(0, customers.length - 5)}`} change="6.4%" caption="loyal guests today" icon={<Users className="size-4" />} tone="green" />
+        <MetricCard label="Orders today" value={String(orders.length)} change="0%" caption="No orders recorded" icon={<ClipboardList className="size-4" />} tone="orange" />
+        <MetricCard label="Average order value" value={formatNpr(0)} change="0%" caption="No orders recorded" icon={<CreditCard className="size-4" />} tone="blue" />
+        <MetricCard label="Guests served" value={String(customers.length)} change="0%" caption="No guests recorded" icon={<Users className="size-4" />} tone="green" />
       </section>
 
       <section className="mt-4 grid gap-4 xl:grid-cols-[1.55fr_0.85fr]">
         <Panel>
-          <PanelHeading title="Sales overview" detail="Your service, day by day" action={<select aria-label="Sales chart date range" className="h-8 rounded-md border border-border bg-white px-2 text-[10px] font-medium text-muted-foreground"><option>Last 7 days</option><option>Today</option><option>Last 30 days</option></select>} />
+          <PanelHeading title="Sales overview" detail="Your service, day by day" action={<select aria-label="Sales chart date range" className="h-8 rounded-md border border-border bg-background px-2 text-[10px] font-medium text-muted-foreground"><option>Last 7 days</option><option>Today</option><option>Last 30 days</option></select>} />
           <div className="h-[242px] px-2 pb-4 pt-5 sm:h-[278px] sm:px-5" role="img" aria-label="Area chart showing sales over the last seven days">
             <ResponsiveContainer width="100%" height="100%">
               <AreaChart data={revenueByDay} margin={{ top: 5, right: 4, left: -18, bottom: 0 }}>
@@ -82,7 +81,7 @@ export function DashboardView() {
                 <XAxis dataKey="day" axisLine={false} tickLine={false} tick={{ fill: '#7d8987', fontSize: 10 }} dy={9} />
                 <YAxis axisLine={false} tickLine={false} tick={{ fill: '#7d8987', fontSize: 9 }} tickFormatter={(value: number) => `${Math.round(value / 1000)}k`} />
                 <Tooltip content={<ChartTooltip />} cursor={{ stroke: '#c9d6d2', strokeDasharray: '3 3' }} />
-                <Area type="monotone" dataKey="revenue" stroke="#173b3f" strokeWidth={2.5} fill="#dce9e6" activeDot={{ r: 4, strokeWidth: 2, fill: '#fff' }} />
+                <Area type="monotone" dataKey="revenue" stroke="#dc143c" strokeWidth={2.5} fill="#ffe4e8" activeDot={{ r: 4, strokeWidth: 2, fill: '#fff' }} />
               </AreaChart>
             </ResponsiveContainer>
           </div>
@@ -99,7 +98,7 @@ export function DashboardView() {
                 <Tooltip formatter={(value) => [`${value}%`, 'Share']} />
               </PieChart>
             </ResponsiveContainer>
-            <div className="pointer-events-none absolute inset-0 flex flex-col items-center justify-center pt-1"><span className="text-[10px] text-muted-foreground">Payments</span><span className="mt-1 text-[22px] font-semibold tracking-[-0.05em]">4 methods</span></div>
+            <div className="pointer-events-none absolute inset-0 flex flex-col items-center justify-center pt-1"><span className="text-[10px] text-muted-foreground">Payments</span><span className="mt-1 text-[22px] font-semibold tracking-[-0.05em]">{paymentMix.length} methods</span></div>
           </div>
           <div className="grid grid-cols-2 gap-x-4 gap-y-2 px-5 pb-5">
             {paymentMix.map((item) => <div key={item.name} className="flex items-center gap-2 text-[10px]"><span className="size-2 rounded-full" style={{ backgroundColor: item.color }} /><span className="flex-1 text-muted-foreground">{item.name}</span><span className="font-semibold">{item.value}%</span></div>)}
@@ -113,7 +112,7 @@ export function DashboardView() {
           <TableScroller>
             <table className="w-full min-w-[570px] text-left">
               <thead><tr className="border-b border-border text-[9px] font-semibold uppercase tracking-[0.08em] text-muted-foreground"><th className="px-5 pb-2 pt-4">Order</th><th className="px-3 pb-2 pt-4">Guest / table</th><th className="px-3 pb-2 pt-4">Total</th><th className="px-5 pb-2 pt-4">Status</th></tr></thead>
-              <tbody>{orders.slice(0, 4).map((order) => <tr key={order.id} className="border-b border-border/70 last:border-0"><td className="px-5 py-3"><p className="text-[11px] font-semibold text-primary">{order.id}</p><p className="mt-1 text-[9px] text-muted-foreground">{order.time}</p></td><td className="max-w-[150px] px-3 py-3"><p className="truncate text-[10px] font-medium">{order.customer}</p><p className="mt-1 text-[9px] text-muted-foreground">{order.table === '—' ? order.type : order.table}</p></td><td className="numeric px-3 py-3 text-[10px] font-semibold">{formatNpr(order.amount)}</td><td className="px-5 py-3"><StatusBadge status={order.status} /></td></tr>)}</tbody>
+              <tbody>{orders.slice(0, 4).map((order) => <tr key={order.id} className="border-b border-border/70 last:border-0"><td className="px-5 py-3"><p className="text-[11px] font-semibold text-primary">{order.id}</p><p className="mt-1 text-[9px] text-muted-foreground">{order.time}</p></td><td className="max-w-[150px] px-3 py-3"><p className="truncate text-[10px] font-medium">{order.customer}</p><p className="mt-1 text-[9px] text-muted-foreground">{order.table === '—' ? order.type : order.table}</p></td><td className="numeric px-3 py-3 text-[10px] font-semibold">{formatNpr(order.amount)}</td><td className="px-5 py-3"><StatusBadge status={order.status} /></td></tr>)}{orders.length === 0 && <tr><td colSpan={4} className="px-5 py-12 text-center text-xs text-muted-foreground">No orders yet. New orders are disabled for now.</td></tr>}</tbody>
             </table>
           </TableScroller>
         </Panel>
@@ -127,7 +126,7 @@ export function DashboardView() {
                 <XAxis type="number" hide />
                 <YAxis type="category" dataKey="name" width={108} axisLine={false} tickLine={false} tick={{ fill: '#68737a', fontSize: 9 }} />
                 <Tooltip formatter={(value) => [formatNpr(Number(value)), 'Sales']} cursor={{ fill: '#f5f7f6' }} />
-                <Bar dataKey="sales" fill="#173b3f" radius={[0, 4, 4, 0]} barSize={13} />
+                <Bar dataKey="sales" fill="#dc143c" radius={[0, 4, 4, 0]} barSize={13} />
               </BarChart>
             </ResponsiveContainer>
           </div>

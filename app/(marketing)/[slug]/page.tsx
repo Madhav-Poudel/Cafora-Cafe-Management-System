@@ -17,7 +17,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   if (!validSlugs.includes(slug)) return { title: 'Not found' }
   return {
     title: marketingPageTitle(slug),
-    description: `Explore ${slug} with ServePilot, the connected restaurant operations workspace.`,
+    description: `Explore ${slug} with Cafora, the connected restaurant operations workspace.`,
   }
 }
 

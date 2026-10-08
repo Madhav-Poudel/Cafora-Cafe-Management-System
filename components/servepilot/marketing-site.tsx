@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import Image from 'next/image'
 import {
   Activity,
   ArrowRight,
@@ -33,6 +34,7 @@ import {
   type LucideIcon,
 } from 'lucide-react'
 import { BrandMark } from './shared'
+import { ThemeToggle } from './theme-toggle'
 
 export type MarketingFeature = {
   title: string
@@ -107,10 +109,10 @@ const pricingPlans = [
 ]
 
 const faqs = [
-  { question: 'Can I try ServePilot before choosing a plan?', answer: 'Yes. The product demo is open to explore, and every paid plan starts with a 14-day trial. You can see how your team works with it before committing.' },
-  { question: 'Does ServePilot work for more than one restaurant?', answer: 'Yes. Growth teams can compare locations, while Scale and Enterprise plans add multi-branch controls, consolidated reporting, and role-based access.' },
-  { question: 'Can I use local payments and NPR pricing?', answer: 'ServePilot is designed around Nepal-first operations, with NPR reporting and payment methods your guests already recognize.' },
-  { question: 'Do I need special hardware?', answer: 'No special hardware is required to explore the workspace. ServePilot is designed for modern browsers and can be paired with compatible printers and devices.' },
+  { question: 'Can I try Cafora before choosing a plan?', answer: 'Yes. The product demo is open to explore, and every paid plan starts with a 14-day trial. You can see how your team works with it before committing.' },
+  { question: 'Does Cafora work for more than one restaurant?', answer: 'Yes. Growth teams can compare locations, while Scale and Enterprise plans add multi-branch controls, consolidated reporting, and role-based access.' },
+  { question: 'Can I use local payments and NPR pricing?', answer: 'Cafora is designed around Nepal-first operations, with NPR reporting and payment methods your guests already recognize.' },
+  { question: 'Do I need special hardware?', answer: 'No special hardware is required to explore the workspace. Cafora is designed for modern browsers and can be paired with compatible printers and devices.' },
   { question: 'Will my kitchen see new orders right away?', answer: 'Orders move from the service screen to the kitchen display as they are sent. Teams can update prep status so the front of house knows what is ready.' },
   { question: 'Can my team control who sees financial information?', answer: 'Yes. Staff roles let owners and managers decide which tools are visible to each teammate.' },
   { question: 'Can I import my existing menu and stock list?', answer: 'A guided onboarding flow helps you set up your menu and ingredients. Teams on Growth and above can also get help with larger imports.' },
@@ -139,9 +141,10 @@ export function SiteHeader() {
   return (
     <header className="sticky top-0 z-40 border-b border-border/80 bg-white/95 backdrop-blur-sm">
       <div className="page-container flex h-[72px] items-center justify-between gap-6">
-        <Link href="/" aria-label="ServePilot home"><BrandMark /></Link>
+        <Link href="/" aria-label="Cafora home"><BrandMark /></Link>
         <nav aria-label="Main navigation" className="hidden items-center gap-7 lg:flex"><NavLinks /></nav>
-        <div className="hidden items-center gap-5 sm:flex">
+        <div className="hidden items-center gap-3 sm:flex">
+          <ThemeToggle compact />
           <Link href="/login" className="text-sm font-semibold text-foreground transition-colors hover:text-primary">Log in</Link>
           <Link href="/signup" className="inline-flex h-10 items-center gap-2 rounded-lg bg-primary px-4 text-sm font-semibold text-white transition-colors hover:bg-brand-800">
             Start free <ArrowRight className="size-4" aria-hidden="true" />
@@ -153,6 +156,10 @@ export function SiteHeader() {
           </summary>
           <div className="absolute right-0 top-12 z-50 flex w-64 flex-col gap-4 rounded-xl border border-border bg-white p-4 shadow-xl">
             <NavLinks />
+            <div className="flex items-center justify-between border-t border-border pt-3">
+              <span className="text-sm font-semibold">Appearance</span>
+              <ThemeToggle />
+            </div>
             <div className="flex items-center gap-4 border-t border-border pt-3">
               <Link href="/login" className="text-sm font-semibold">Log in</Link>
               <Link href="/signup" className="text-sm font-semibold text-primary">Start free</Link>
@@ -167,19 +174,19 @@ export function SiteHeader() {
 function BrowserPreview() {
   const bars = [36, 53, 45, 70, 56, 84, 63, 91, 72, 100, 77, 88]
   return (
-    <div aria-label="Preview of the ServePilot restaurant dashboard" className="relative mx-auto w-full max-w-[660px] rounded-[18px] border border-[#dce3e0] bg-white p-2 shadow-[0_30px_80px_-36px_rgba(23,59,63,0.35)] sm:p-3">
+    <div aria-label="Preview of the Cafora restaurant dashboard" className="relative mx-auto w-full max-w-[740px] rounded-[18px] border border-border bg-white p-2 shadow-[0_30px_80px_-36px_rgba(220,20,60,0.22)] sm:p-3">
       <div className="flex h-8 items-center gap-1.5 border-b border-border px-2 pb-2">
         <span className="size-2 rounded-full bg-[#e6a29e]" />
         <span className="size-2 rounded-full bg-[#ebc376]" />
         <span className="size-2 rounded-full bg-[#7fc69c]" />
-        <span className="ml-3 flex h-5 flex-1 items-center rounded-md bg-[#f4f6f5] px-2 text-[8px] text-muted-foreground">app.servepilot.com / dashboard</span>
+        <span className="ml-3 flex h-5 flex-1 items-center rounded-md bg-[#f4f6f5] px-2 text-[8px] text-muted-foreground">app.cafora.com / dashboard</span>
         <span className="hidden rounded-md bg-secondary px-2 py-1 text-[8px] font-semibold text-primary sm:inline">Thamel Kitchen</span>
       </div>
       <div className="grid min-h-[360px] grid-cols-[52px_1fr] sm:grid-cols-[116px_1fr]">
         <div className="border-r border-border px-2 py-3 sm:px-3">
           <div className="mb-4 flex items-center gap-1.5">
             <BrandMark compact />
-            <span className="hidden text-[9px] font-semibold text-foreground sm:inline">ServePilot</span>
+            <span className="hidden text-[9px] font-semibold text-foreground sm:inline">Cafora</span>
           </div>
           <div className="flex flex-col gap-1">
             {[
@@ -396,15 +403,15 @@ export function SiteFooter() {
     <footer className="border-t border-border bg-white">
       <div className="page-container grid gap-10 py-12 sm:grid-cols-2 lg:grid-cols-[1.5fr_1fr_1fr_1fr]">
         <div>
-          <Link href="/" aria-label="ServePilot home"><BrandMark /></Link>
+          <Link href="/" aria-label="Cafora home"><BrandMark /></Link>
           <p className="mt-4 max-w-xs text-[13px] leading-6 text-muted-foreground">A little more calm in every service. Built for the people who make restaurants feel like somewhere to be.</p>
           <p className="mt-4 inline-flex items-center gap-1.5 text-[11px] font-medium text-muted-foreground"><MapPin className="size-3.5" aria-hidden="true" /> Made with care in Kathmandu</p>
         </div>
         <div><p className="text-xs font-semibold">Product</p><div className="mt-4 flex flex-col gap-3 text-xs text-muted-foreground"><Link href="/features">Features</Link><Link href="/pricing">Pricing</Link><Link href="/solutions">Solutions</Link><Link href="/login">Log in</Link></div></div>
-        <div><p className="text-xs font-semibold">Company</p><div className="mt-4 flex flex-col gap-3 text-xs text-muted-foreground"><Link href="/about">About us</Link><Link href="/resources">Resources</Link><Link href="/contact">Contact</Link><Link href="mailto:hello@servepilot.app">Talk to us</Link></div></div>
+        <div><p className="text-xs font-semibold">Company</p><div className="mt-4 flex flex-col gap-3 text-xs text-muted-foreground"><Link href="/about">About us</Link><Link href="/resources">Resources</Link><Link href="/contact">Contact</Link><Link href="mailto:hello@cafora.com">Talk to us</Link></div></div>
         <div><p className="text-xs font-semibold">Built for service</p><p className="mt-4 max-w-[210px] text-xs leading-5 text-muted-foreground">The small details that help a restaurant run like one team.</p><div className="mt-4 flex items-center gap-2 text-[10px] font-medium text-primary"><span className="size-2 rounded-full bg-success" /> Workspace demo available</div></div>
       </div>
-      <div className="border-t border-border"><div className="page-container flex flex-col gap-2 py-4 text-[10px] text-muted-foreground sm:flex-row sm:items-center sm:justify-between"><span>© 2026 ServePilot Technologies Pvt. Ltd.</span><span>Privacy · Terms · Accessibility</span></div></div>
+      <div className="border-t border-border"><div className="page-container flex flex-col gap-2 py-4 text-[10px] text-muted-foreground sm:flex-row sm:items-center sm:justify-between"><span>© 2026 Cafora Technologies Pvt. Ltd.</span><span>Privacy · Terms · Accessibility</span></div></div>
     </footer>
   )
 }
@@ -414,14 +421,17 @@ export function MarketingSite() {
     <div className="min-h-screen bg-background">
       <SiteHeader />
       <main>
-        <section className="page-container grid items-center gap-12 pb-16 pt-12 sm:pb-20 sm:pt-16 lg:min-h-[660px] lg:grid-cols-[0.9fr_1.1fr] lg:gap-7 lg:py-16">
-          <div className="max-w-xl">
-            <p className="inline-flex items-center gap-2 rounded-full border border-border bg-white px-3 py-1.5 text-[10px] font-semibold uppercase tracking-[0.12em] text-primary"><span className="size-1.5 rounded-full bg-brand-orange" /> The calm behind a great service</p>
-            <h1 className="mt-6 text-[45px] font-semibold leading-[0.99] tracking-[-0.065em] text-foreground sm:text-[60px] lg:text-[68px]">Run a better<br className="hidden sm:block" /> restaurant day.</h1>
+        <section className="relative isolate overflow-hidden border-b border-border bg-[radial-gradient(circle_at_77%_44%,#ffe6e8_0,transparent_28%),linear-gradient(135deg,#fff_0%,#fff7f2_100%)]">
+          <div className="pointer-events-none absolute -right-32 -top-40 -z-10 size-[520px] rounded-full border-[64px] border-white/70 blur-[1px]" />
+          <div className="pointer-events-none absolute -bottom-52 left-[38%] -z-10 size-[440px] rounded-full bg-[#fff0d8]/70 blur-3xl" />
+          <div className="page-container grid items-center gap-12 pb-20 pt-12 sm:pb-24 sm:pt-16 lg:min-h-[690px] lg:grid-cols-[0.88fr_1.12fr] lg:gap-8 lg:py-20">
+          <div className="relative z-10 max-w-2xl">
+            <p className="inline-flex items-center gap-2 rounded-full border border-primary/15 bg-white/85 px-3 py-1.5 text-[10px] font-semibold uppercase tracking-[0.12em] text-primary shadow-sm"><span className="size-1.5 animate-pulse rounded-full bg-brand-orange" /> The calm behind a great service</p>
+            <h1 className="mt-6 text-[45px] font-semibold leading-[0.99] tracking-[-0.065em] text-foreground sm:text-[60px] lg:text-[70px]">Run a better<br className="hidden sm:block" /> <span className="bg-gradient-to-r from-primary via-[#b41034] to-brand-orange bg-clip-text text-transparent">restaurant day.</span></h1>
             <p className="mt-5 max-w-lg text-[16px] leading-7 text-muted-foreground sm:text-[18px] sm:leading-8">Orders, kitchen, stock, and your team — all in one place. Spend less time juggling tabs and more time making guests feel welcome.</p>
             <div className="mt-7 flex flex-col gap-3 sm:flex-row sm:items-center">
-              <Link href="/signup" className="inline-flex h-12 items-center justify-center gap-2 rounded-lg bg-primary px-5 text-sm font-semibold text-white transition-colors hover:bg-brand-800">Start your free trial <ArrowRight className="size-4" aria-hidden="true" /></Link>
-              <Link href="/app/dashboard" className="inline-flex h-12 items-center justify-center gap-2 rounded-lg border border-border bg-white px-5 text-sm font-semibold text-foreground transition-colors hover:bg-muted">Explore the demo <ArrowUpRight className="size-4" aria-hidden="true" /></Link>
+              <Link href="/signup" className="inline-flex h-12 items-center justify-center gap-2 rounded-xl bg-primary px-5 text-sm font-semibold text-white shadow-[0_12px_24px_-12px_rgba(220,20,60,0.7)] transition-all hover:-translate-y-0.5 hover:bg-brand-800">Start your free trial <ArrowRight className="size-4" aria-hidden="true" /></Link>
+              <Link href="/app/dashboard" className="inline-flex h-12 items-center justify-center gap-2 rounded-xl border border-border bg-white/80 px-5 text-sm font-semibold text-foreground shadow-sm transition-all hover:-translate-y-0.5 hover:bg-white">Explore the demo <ArrowUpRight className="size-4" aria-hidden="true" /></Link>
             </div>
             <p className="mt-3 text-[11px] text-muted-foreground">14 days on us · No card needed · Setup in minutes</p>
             <div className="mt-9 flex items-center gap-3">
@@ -429,7 +439,25 @@ export function MarketingSite() {
               <span className="text-[11px] leading-4 text-muted-foreground"><strong className="font-semibold text-foreground">Made for people who serve.</strong><br />Built with Nepal&apos;s restaurant teams.</span>
             </div>
           </div>
-          <div className="min-w-0 py-2 lg:pl-3"><BrowserPreview /></div>
+          <div className="relative min-w-0 py-2 lg:pl-3">
+            <div className="relative mx-auto w-full max-w-[760px]">
+              <div className="absolute -left-3 top-8 z-20 hidden w-[148px] -rotate-6 rounded-2xl border border-white/80 bg-white/95 p-2.5 shadow-[0_18px_45px_-20px_rgba(28,25,23,0.5)] sm:block">
+                <div className="relative h-20 overflow-hidden rounded-xl">
+                  <Image src="/servepilot/momo.png" alt="Steamed momo" fill className="object-cover" sizes="148px" />
+                </div>
+                <p className="mt-2 text-[9px] font-semibold text-foreground">Best seller today</p>
+                <p className="mt-0.5 text-[8px] text-muted-foreground">Chicken momo · 24 plates</p>
+              </div>
+              <div className="absolute -right-2 bottom-10 z-20 hidden w-[154px] rotate-6 rounded-2xl border border-white/80 bg-white/95 p-2.5 shadow-[0_18px_45px_-20px_rgba(28,25,23,0.5)] sm:block">
+                <div className="flex items-center gap-2">
+                  <div className="relative size-11 overflow-hidden rounded-xl"><Image src="/servepilot/masala-chai.png" alt="Masala chai" fill className="object-cover" sizes="44px" /></div>
+                  <div><p className="text-[9px] font-semibold text-foreground">Service is flowing</p><p className="mt-0.5 text-[8px] text-success">● 8 tables active</p></div>
+                </div>
+              </div>
+              <BrowserPreview />
+            </div>
+          </div>
+          </div>
         </section>
 
         <section className="border-y border-border bg-white">
@@ -488,7 +516,7 @@ export function MarketingSite() {
               { category: 'Operations', title: 'A calmer opening checklist for your whole team', icon: CalendarCheck2, read: '6 min read' },
               { category: 'Inventory', title: 'How to keep a useful eye on food cost', icon: PackageCheck, read: '8 min read' },
               { category: 'People', title: 'Make the handoff from service to kitchen feel easy', icon: Workflow, read: '5 min read' },
-            ].map(({ category, title, icon: Icon, read }) => <article key={title} className="rounded-xl border border-border bg-white p-5"><span className="grid size-10 place-items-center rounded-xl bg-secondary text-primary"><Icon className="size-[18px]" /></span><p className="mt-4 text-[10px] font-semibold uppercase tracking-[0.1em] text-brand-orange">{category}</p><h3 className="mt-2 text-[16px] font-semibold leading-6 tracking-[-0.025em]">{title}</h3><p className="mt-4 text-[10px] text-muted-foreground">{read} <span className="px-1">·</span> ServePilot journal</p></article>)}
+            ].map(({ category, title, icon: Icon, read }) => <article key={title} className="rounded-xl border border-border bg-white p-5"><span className="grid size-10 place-items-center rounded-xl bg-secondary text-primary"><Icon className="size-[18px]" /></span><p className="mt-4 text-[10px] font-semibold uppercase tracking-[0.1em] text-brand-orange">{category}</p><h3 className="mt-2 text-[16px] font-semibold leading-6 tracking-[-0.025em]">{title}</h3><p className="mt-4 text-[10px] text-muted-foreground">{read} <span className="px-1">·</span> Cafora journal</p></article>)}
           </div>
         </section>
 

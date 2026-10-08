@@ -176,7 +176,7 @@ export function SettingsView() {
   }
 
   return <div>
-    <PageHeader eyebrow="Workspace preferences" title="Settings" description="Configure how ServePilot fits your restaurant and your team." />
+    <PageHeader eyebrow="Workspace preferences" title="Settings" description="Configure how Cafora fits your restaurant and your team." />
     <div className="grid items-start gap-4 lg:grid-cols-[235px_minmax(0,1fr)]">
       <Panel className="p-2">
         <nav aria-label="Settings sections" className="subtle-scrollbar flex gap-1 overflow-x-auto lg:flex-col lg:overflow-x-visible">

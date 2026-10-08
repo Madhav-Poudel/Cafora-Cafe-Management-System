@@ -155,7 +155,7 @@ export function FinanceView() {
     const url = URL.createObjectURL(new Blob([csv], { type: 'text/csv;charset=utf-8' }))
     const link = document.createElement('a')
     link.href = url
-    link.download = 'servepilot-finance-demo.csv'
+    link.download = 'cafora-finance-demo.csv'
     link.click()
     URL.revokeObjectURL(url)
     showToast('Finance activity exported as CSV.')
@@ -181,7 +181,7 @@ export function FinanceView() {
               <XAxis axisLine={false} dataKey="day" dy={8} tick={{ fill: '#7d8987', fontSize: 10 }} tickLine={false} />
               <YAxis axisLine={false} tick={{ fill: '#7d8987', fontSize: 9 }} tickFormatter={(value: number) => `${Math.round(value / 1000)}k`} tickLine={false} />
               <Tooltip formatter={(value) => formatNpr(Number(value))} />
-              <Area dataKey="income" fill="#dce9e6" name="Sales" stroke="#173b3f" strokeWidth={2.5} type="monotone" />
+              <Area dataKey="income" fill="#ffe4e8" name="Sales" stroke="#dc143c" strokeWidth={2.5} type="monotone" />
               <Area dataKey="expenses" fill="#fff1df" name="Expenses" stroke="#f28c28" strokeWidth={2} type="monotone" />
             </AreaChart>
           </ResponsiveContainer>

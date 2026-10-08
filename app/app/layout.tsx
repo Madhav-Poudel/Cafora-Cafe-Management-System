@@ -5,7 +5,7 @@ import { DemoStoreProvider } from '@/components/servepilot/demo-store'
 export const metadata: Metadata = {
   title: {
     default: 'Restaurant workspace',
-    template: '%s | ServePilot',
+    template: '%s | Cafora',
   },
   robots: { index: false, follow: false },
 }

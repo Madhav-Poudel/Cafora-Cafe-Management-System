@@ -1,16 +1,23 @@
 import { Analytics } from '@vercel/analytics/next'
 import type { Metadata, Viewport } from 'next'
+import { Poppins } from 'next/font/google'
 import './globals.css'
+
+const poppins = Poppins({
+  subsets: ['latin'],
+  weight: ['300', '400', '500', '600', '700', '800'],
+  variable: '--font-poppins',
+  display: 'swap',
+})
 
 export const metadata: Metadata = {
   title: {
-    default: 'ServePilot — Restaurant operations, simplified',
-    template: '%s | ServePilot',
+    default: 'Cafora — Restaurant operations, simplified',
+    template: '%s | Cafora',
   },
   description:
     'A calm, connected workspace for restaurant orders, kitchen operations, inventory, teams, and financial reporting.',
-  applicationName: 'ServePilot',
-  generator: 'v0.app',
+  applicationName: 'Cafora',
   keywords: [
     'restaurant management',
     'restaurant POS',
@@ -27,17 +34,17 @@ export const metadata: Metadata = {
     apple: '/apple-icon.png',
   },
   openGraph: {
-    title: 'ServePilot — Restaurant operations, simplified',
+    title: 'Cafora — Restaurant operations, simplified',
     description:
       'Manage service, stock, people, and performance from one thoughtful restaurant workspace.',
-    siteName: 'ServePilot',
+    siteName: 'Cafora',
     type: 'website',
   },
 }
 
 export const viewport: Viewport = {
   colorScheme: 'light',
-  themeColor: '#173B3F',
+  themeColor: '#DC143C',
 }
 
 export default function RootLayout({
@@ -46,8 +53,8 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en">
-      <body className="antialiased">
+    <html lang="en" suppressHydrationWarning>
+      <body className={`${poppins.variable} ${poppins.className} antialiased`} suppressHydrationWarning>
         {children}
         {process.env.NODE_ENV === 'production' && <Analytics />}
       </body>

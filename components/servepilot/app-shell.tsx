@@ -1,8 +1,8 @@
 'use client'
 
-import { useMemo, useState, type ReactNode } from 'react'
+import { useEffect, useMemo, useState, type ReactNode } from 'react'
 import Link from 'next/link'
-import { usePathname } from 'next/navigation'
+import { usePathname, useRouter } from 'next/navigation'
 import {
   Activity,
   Bell,
@@ -17,7 +17,9 @@ import {
   CreditCard,
   Grid2X2,
   LayoutDashboard,
+  LogOut,
   Menu,
+  Moon,
   PanelLeftOpen,
   Search,
   Settings2,
@@ -29,6 +31,7 @@ import {
   Users,
   UtensilsCrossed,
   Wallet,
+  Sun,
   X,
   type LucideIcon,
 } from 'lucide-react'
@@ -116,6 +119,7 @@ function NavigationLink({
 
 export function ServePilotAppShell({ children }: { children: ReactNode }) {
   const pathname = usePathname()
+  const router = useRouter()
   const { branch, setBranch, showToast, orders, inventory, toast } = useDemoStore()
   const [collapsed, setCollapsed] = useState(false)
   const [drawerOpen, setDrawerOpen] = useState(false)
@@ -124,6 +128,22 @@ export function ServePilotAppShell({ children }: { children: ReactNode }) {
   const [notificationsOpen, setNotificationsOpen] = useState(false)
   const [allRead, setAllRead] = useState(false)
   const [period, setPeriod] = useState('Today')
+  const [accountOpen, setAccountOpen] = useState(false)
+  const [darkMode, setDarkMode] = useState(false)
+
+  useEffect(() => {
+    const savedTheme = window.localStorage.getItem('cafora-theme')
+    const enabled = savedTheme === 'dark'
+    setDarkMode(enabled)
+    document.documentElement.classList.toggle('dark', enabled)
+  }, [])
+
+  function toggleDarkMode() {
+    const enabled = !darkMode
+    setDarkMode(enabled)
+    window.localStorage.setItem('cafora-theme', enabled ? 'dark' : 'light')
+    document.documentElement.classList.toggle('dark', enabled)
+  }
 
   const searchResults = useMemo(() => {
     const query = search.trim().toLowerCase()
@@ -138,12 +158,18 @@ export function ServePilotAppShell({ children }: { children: ReactNode }) {
     setDrawerOpen(false)
   }
 
+  async function handleLogout() {
+    await fetch('/api/auth/logout', { method: 'POST' })
+    setAccountOpen(false)
+    router.push('/login')
+  }
+
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background text-foreground">
       {drawerOpen && <button aria-label="Close navigation" className="fixed inset-0 z-40 bg-[#172026]/35 lg:hidden" onClick={closeMobileNav} />}
-      <aside className={`fixed inset-y-0 left-0 z-50 flex flex-col border-r border-border bg-white transition-[width,transform] duration-200 ${collapsed ? 'w-[76px]' : 'w-[256px]'} ${drawerOpen ? 'translate-x-0' : '-translate-x-full'} lg:translate-x-0`}>
+      <aside className={`fixed inset-y-0 left-0 z-50 flex flex-col border-r border-border bg-card transition-[width,transform] duration-200 ${collapsed ? 'w-[76px]' : 'w-[256px]'} ${drawerOpen ? 'translate-x-0' : '-translate-x-full'} lg:translate-x-0`}>
         <div className={`flex h-[68px] shrink-0 items-center border-b border-border px-4 ${collapsed ? 'justify-center' : 'justify-between'}`}>
-          <Link href="/app/dashboard" aria-label="ServePilot workspace" className="min-w-0" onClick={closeMobileNav}><BrandMark compact={collapsed} /></Link>
+          <Link href="/app/dashboard" aria-label="Cafora workspace" className="min-w-0" onClick={closeMobileNav}><BrandMark compact={collapsed} /></Link>
           {!collapsed && <button aria-label="Close navigation" className="grid size-8 place-items-center rounded-lg text-muted-foreground hover:bg-muted lg:hidden" onClick={closeMobileNav}><X className="size-4" /></button>}
           {!collapsed && <button aria-label="Collapse navigation" className="hidden size-8 place-items-center rounded-lg text-muted-foreground hover:bg-muted lg:grid" onClick={() => setCollapsed(true)}><ChevronsLeft className="size-4" /></button>}
           {collapsed && <button aria-label="Expand navigation" className="hidden size-8 place-items-center rounded-lg text-muted-foreground hover:bg-muted lg:grid" onClick={() => setCollapsed(false)}><PanelLeftOpen className="size-4" /></button>}
@@ -165,21 +191,21 @@ export function ServePilotAppShell({ children }: { children: ReactNode }) {
           {!collapsed ? <label className="flex flex-col gap-1.5 rounded-xl bg-[#f7f8f6] p-3">
             <span className="text-[9px] font-semibold uppercase tracking-[0.1em] text-muted-foreground">Restaurant location</span>
             <span className="relative flex items-center">
-              <select aria-label="Switch restaurant location" value={branch} onChange={(event) => { setBranch(event.target.value); showToast(`Viewing ${event.target.value}.`) }} className="h-9 w-full appearance-none rounded-lg border border-border bg-white pl-2.5 pr-8 text-[11px] font-semibold text-foreground outline-none focus:border-primary/40">
+              <select aria-label="Switch restaurant location" value={branch} onChange={(event) => { setBranch(event.target.value); showToast(`Viewing ${event.target.value}.`) }} className="h-9 w-full appearance-none rounded-lg border border-border bg-background pl-2.5 pr-8 text-[11px] font-semibold text-foreground outline-none focus:border-primary/40">
                 {branches.map((location) => <option key={location}>{location}</option>)}
               </select>
               <ChevronDown aria-hidden="true" className="pointer-events-none absolute right-2.5 size-3.5 text-muted-foreground" />
             </span>
           </label> : <button aria-label={`Current location: ${branch}`} title={branch} className="grid size-10 w-full place-items-center rounded-lg bg-secondary text-primary"><Grid2X2 className="size-4" /></button>}
-          <Link href="/app/settings" onClick={closeMobileNav} className={`mt-3 flex items-center gap-2.5 rounded-lg p-2 transition-colors hover:bg-muted ${collapsed ? 'justify-center' : ''}`}>
+          <button type="button" onClick={() => setAccountOpen((current) => !current)} aria-label="Open account menu" aria-expanded={accountOpen} className={`mt-3 flex w-full items-center gap-2.5 rounded-lg p-2 text-left transition-colors hover:bg-muted ${collapsed ? 'justify-center' : ''}`}>
             <span className="grid size-8 shrink-0 place-items-center rounded-full bg-[#e8eee9] text-[10px] font-semibold text-primary">AK</span>
             {!collapsed && <span className="min-w-0 flex-1"><span className="block truncate text-[11px] font-semibold">Aarya K.C.</span><span className="mt-0.5 block text-[9px] text-muted-foreground">Workspace owner</span></span>}
-          </Link>
+          </button>
         </div>
       </aside>
 
       <div className={`min-h-screen transition-[padding] duration-200 ${collapsed ? 'lg:pl-[76px]' : 'lg:pl-[256px]'}`}>
-        <header className="sticky top-0 z-30 flex h-[68px] items-center gap-3 border-b border-border bg-white/95 px-4 backdrop-blur sm:px-6">
+        <header className="sticky top-0 z-30 flex h-[68px] items-center gap-3 border-b border-border bg-card/95 px-4 backdrop-blur sm:px-6">
           <button aria-label="Open navigation" className="grid size-9 shrink-0 place-items-center rounded-lg border border-border text-muted-foreground hover:bg-muted lg:hidden" onClick={() => setDrawerOpen(true)}><Menu className="size-4" /></button>
           <div className="hidden min-w-0 items-center gap-2 text-[11px] text-muted-foreground sm:flex"><span className="text-foreground">Workspace</span><span aria-hidden="true">/</span><span className="truncate font-medium text-foreground">{allNavItems.find((item) => matchesNavigationPath(pathname, item))?.label ?? 'Dashboard'}</span></div>
 
@@ -188,7 +214,7 @@ export function ServePilotAppShell({ children }: { children: ReactNode }) {
               <Search aria-hidden="true" className="size-3.5 shrink-0" />
               <span className="sr-only">Search workspace</span>
               <input value={search} onFocus={() => setSearchOpen(true)} onChange={(event) => { setSearch(event.target.value); setSearchOpen(true) }} onKeyDown={(event) => { if (event.key === 'Escape') setSearchOpen(false); if (event.key === 'Enter' && searchResults[0]) { window.location.href = searchResults[0].href } }} placeholder="Search workspace" className="min-w-0 flex-1 bg-transparent text-[11px] text-foreground outline-none placeholder:text-muted-foreground" />
-              <kbd className="hidden rounded border border-border bg-white px-1.5 py-0.5 text-[9px] font-medium text-muted-foreground lg:inline">⌘ K</kbd>
+              <kbd className="hidden rounded border border-border bg-background px-1.5 py-0.5 text-[9px] font-medium text-muted-foreground lg:inline">⌘ K</kbd>
             </label>
             {searchOpen && searchResults.length > 0 && <div className="absolute inset-x-0 top-11 z-50 rounded-xl border border-border bg-white p-1.5 shadow-xl">
               {searchResults.map((item) => <Link key={item.href} href={item.href} onClick={() => { setSearch(''); setSearchOpen(false) }} className="flex items-center gap-2.5 rounded-lg px-3 py-2.5 text-xs text-foreground hover:bg-muted"><item.icon aria-hidden="true" className="size-4 text-primary" />{item.label}</Link>)}
@@ -198,7 +224,7 @@ export function ServePilotAppShell({ children }: { children: ReactNode }) {
 
           <label className="relative hidden items-center sm:flex">
             <CalendarDays aria-hidden="true" className="pointer-events-none absolute left-2.5 size-3.5 text-muted-foreground" />
-            <select aria-label="Dashboard period" value={period} onChange={(event) => setPeriod(event.target.value)} className="h-9 appearance-none rounded-lg border border-border bg-white pl-8 pr-8 text-[10px] font-semibold text-foreground outline-none focus:border-primary/40">
+            <select aria-label="Dashboard period" value={period} onChange={(event) => setPeriod(event.target.value)} className="h-9 appearance-none rounded-lg border border-border bg-background pl-8 pr-8 text-[10px] font-semibold text-foreground outline-none focus:border-primary/40">
               {['Today', 'Yesterday', 'This week', 'This month'].map((item) => <option key={item}>{item}</option>)}
             </select>
             <ChevronDown aria-hidden="true" className="pointer-events-none absolute right-2.5 size-3 text-muted-foreground" />
@@ -206,13 +232,27 @@ export function ServePilotAppShell({ children }: { children: ReactNode }) {
 
           <div className="relative">
             <button type="button" aria-label={`Notifications${unreadCount ? `, ${unreadCount} unread` : ''}`} aria-expanded={notificationsOpen} onClick={() => { setNotificationsOpen((current) => !current); setSearchOpen(false) }} className="relative grid size-9 place-items-center rounded-lg border border-border text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"><Bell className="size-4" />{unreadCount > 0 && <span className="absolute right-1.5 top-1.5 size-1.5 rounded-full bg-brand-orange ring-2 ring-white" />}</button>
-            {notificationsOpen && <div className="absolute right-0 top-11 z-50 w-[min(330px,calc(100vw-24px))] rounded-xl border border-border bg-white p-4 shadow-xl">
+            {notificationsOpen && <div className="absolute right-0 top-11 z-50 w-[min(330px,calc(100vw-24px))] rounded-xl border border-border bg-card p-4 shadow-xl">
               <div className="flex items-start justify-between gap-3"><div><h2 className="text-sm font-semibold">Notifications</h2><p className="mt-1 text-[10px] text-muted-foreground">Updates for your workspace</p></div><button type="button" onClick={() => setAllRead(true)} className="text-[10px] font-semibold text-primary">Mark all read</button></div>
               <div className="mt-3 flex flex-col divide-y divide-border">{notifications.map((item) => { const Icon = item.icon; return <div key={item.id} className="flex gap-3 py-3"><span className={`grid size-8 shrink-0 place-items-center rounded-lg ${item.tone}`}><Icon className="size-4" /></span><span className="min-w-0 flex-1"><span className="block text-[11px] font-semibold">{item.title}</span><span className="mt-1 block text-[10px] leading-4 text-muted-foreground">{item.detail}</span></span>{!allRead && <span className="mt-1 size-1.5 shrink-0 rounded-full bg-brand-orange" />}</div>})}</div>
             </div>}
           </div>
           <Link href="/resources" aria-label="Help center" title="Help center" className="hidden size-9 place-items-center rounded-lg border border-border text-muted-foreground hover:bg-muted sm:grid"><CircleHelp className="size-4" /></Link>
-          <Link href="/app/settings" aria-label="Open account settings" className="grid size-9 shrink-0 place-items-center rounded-full bg-primary text-[10px] font-semibold text-white">AK</Link>
+          <div className="relative">
+            <button type="button" aria-label="Open account menu" aria-expanded={accountOpen} onClick={() => { setAccountOpen((current) => !current); setNotificationsOpen(false) }} className="grid size-9 shrink-0 place-items-center rounded-full bg-primary text-[10px] font-semibold text-white hover:bg-brand-800">AK</button>
+            {accountOpen && <div className="absolute right-0 top-11 z-50 w-48 rounded-xl border border-border bg-card p-1.5 shadow-xl">
+              <div className="border-b border-border px-3 py-2.5">
+                <p className="text-xs font-semibold">Aarya K.C.</p>
+                <p className="mt-0.5 text-[10px] text-muted-foreground">Workspace owner</p>
+              </div>
+              <Link href="/app/settings" onClick={() => setAccountOpen(false)} className="mt-1 flex items-center gap-2 rounded-lg px-3 py-2.5 text-xs text-foreground hover:bg-muted"><UserRound className="size-3.5 text-muted-foreground" />Profile</Link>
+              <button type="button" onClick={toggleDarkMode} className="flex w-full items-center justify-between rounded-lg px-3 py-2.5 text-xs text-foreground hover:bg-muted">
+                <span className="flex items-center gap-2">{darkMode ? <Sun className="size-3.5 text-muted-foreground" /> : <Moon className="size-3.5 text-muted-foreground" />}{darkMode ? 'Light mode' : 'Dark mode'}</span>
+                <span className={`h-4 w-7 rounded-full p-0.5 transition-colors ${darkMode ? 'bg-primary' : 'bg-muted'}`}><span className={`block size-3 rounded-full bg-white transition-transform ${darkMode ? 'translate-x-3' : ''}`} /></span>
+              </button>
+              <button type="button" onClick={handleLogout} className="flex w-full items-center gap-2 rounded-lg px-3 py-2.5 text-xs text-red-600 hover:bg-red-50"><LogOut className="size-3.5" />Log out</button>
+            </div>}
+          </div>
         </header>
 
         <main className="mx-auto min-h-[calc(100vh-68px)] w-full max-w-[1600px] px-4 pb-24 pt-5 sm:px-6 sm:pt-6 lg:px-8 lg:pb-10">

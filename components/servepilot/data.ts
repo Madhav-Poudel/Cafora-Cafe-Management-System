@@ -131,35 +131,14 @@ export const branches = [
   'All branches',
 ]
 
-export const revenueByDay = [
-  { day: 'Thu', revenue: 32600, orders: 48 },
-  { day: 'Fri', revenue: 41800, orders: 61 },
-  { day: 'Sat', revenue: 56200, orders: 82 },
-  { day: 'Sun', revenue: 48900, orders: 74 },
-  { day: 'Mon', revenue: 37100, orders: 53 },
-  { day: 'Tue', revenue: 43600, orders: 67 },
-  { day: 'Wed', revenue: 52480, orders: 79 },
-]
+export const revenueByDay: Array<{ day: string; revenue: number; orders: number }> = []
 
-export const hourlySales = [
-  { hour: '8a', sales: 3200 },
-  { hour: '10a', sales: 6100 },
-  { hour: '12p', sales: 15200 },
-  { hour: '2p', sales: 9800 },
-  { hour: '4p', sales: 7200 },
-  { hour: '6p', sales: 18400 },
-  { hour: '8p', sales: 22100 },
-  { hour: '10p', sales: 10300 },
-]
+export const hourlySales: Array<{ hour: string; sales: number }> = []
 
-export const paymentMix = [
-  { name: 'Cash', value: 34, color: '#173b3f' },
-  { name: 'Card', value: 29, color: '#f28c28' },
-  { name: 'eSewa', value: 22, color: '#4b7bec' },
-  { name: 'Khalti', value: 15, color: '#3f8f62' },
-]
+export const paymentMix: Array<{ name: string; value: number; color: string }> = []
 
 export const initialOrders: DemoOrder[] = [
+  /*
   {
     id: 'SP-2489',
     time: '12:42 PM',
@@ -251,6 +230,7 @@ export const initialOrders: DemoOrder[] = [
       { name: 'Milk tea', quantity: 2, price: 140 },
     ],
   },
+  */
 ]
 
 export const initialMenuItems: MenuProduct[] = [
@@ -361,6 +341,7 @@ export const initialMenuItems: MenuProduct[] = [
 ]
 
 export const initialInventory: InventoryItem[] = [
+  /*
   { id: 'inv-1', name: 'Chicken breast', category: 'Meat & poultry', sku: 'RAW-041', stock: 8.4, unit: 'kg', cost: 420, sellingPrice: 0, reorderLevel: 12 },
   { id: 'inv-2', name: 'Basmati rice', category: 'Dry goods', sku: 'RAW-012', stock: 24, unit: 'kg', cost: 145, sellingPrice: 0, reorderLevel: 15 },
   { id: 'inv-3', name: 'Buffalo mince', category: 'Meat & poultry', sku: 'RAW-038', stock: 6.2, unit: 'kg', cost: 610, sellingPrice: 0, reorderLevel: 8 },
@@ -369,9 +350,11 @@ export const initialInventory: InventoryItem[] = [
   { id: 'inv-6', name: 'Paneer', category: 'Dairy', sku: 'RAW-033', stock: 0, unit: 'kg', cost: 520, sellingPrice: 0, reorderLevel: 4 },
   { id: 'inv-7', name: 'Milk', category: 'Dairy', sku: 'RAW-031', stock: 12, unit: 'liter', cost: 115, sellingPrice: 0, reorderLevel: 8 },
   { id: 'inv-8', name: 'Ginger', category: 'Produce', sku: 'RAW-028', stock: 1.5, unit: 'kg', cost: 220, sellingPrice: 0, reorderLevel: 2 },
+  */
 ]
 
 export const initialTables: DemoTable[] = [
+  /*
   { id: 'table-1', label: 'T-01', section: 'Window', capacity: 2, status: 'Occupied', guest: 'Anisha Sharma', since: '12:18 PM', amount: 1150 },
   { id: 'table-2', label: 'T-02', section: 'Window', capacity: 2, status: 'Available', guest: '', since: '', amount: 0 },
   { id: 'table-3', label: 'T-03', section: 'Main room', capacity: 4, status: 'Occupied', guest: 'Sujan Gurung', since: '12:05 PM', amount: 1320 },
@@ -384,47 +367,60 @@ export const initialTables: DemoTable[] = [
   { id: 'table-10', label: 'T-10', section: 'Patio', capacity: 6, status: 'Occupied', guest: 'Rohan Karki', since: '11:48 AM', amount: 1710 },
   { id: 'table-11', label: 'T-11', section: 'Main room', capacity: 2, status: 'Reserved', guest: 'Bikash Thapa', since: '1:20 PM', amount: 0 },
   { id: 'table-12', label: 'T-12', section: 'Main room', capacity: 4, status: 'Available', guest: '', since: '', amount: 0 },
+  */
 ]
 
 export const initialCustomers: DemoCustomer[] = [
+  /*
   { id: 'cus-1', name: 'Anisha Sharma', phone: '+977 981-112-4086', email: 'anisha.sharma@mail.com', totalOrders: 28, totalSpent: 24650, lastVisit: 'Today', loyaltyPoints: 246, favorite: 'Chicken momo' },
   { id: 'cus-2', name: 'Sujan Gurung', phone: '+977 984-203-1190', email: 'sujan.g@mail.com', totalOrders: 17, totalSpent: 18340, lastVisit: 'Yesterday', loyaltyPoints: 183, favorite: 'Paneer tikka' },
   { id: 'cus-3', name: 'Prakriti Rai', phone: '+977 980-770-2241', email: 'prakriti.rai@mail.com', totalOrders: 12, totalSpent: 10880, lastVisit: '2 days ago', loyaltyPoints: 108, favorite: 'Veg chowmein' },
   { id: 'cus-4', name: 'Rohan Karki', phone: '+977 986-042-8177', email: 'rohan.karki@mail.com', totalOrders: 9, totalSpent: 8290, lastVisit: '4 days ago', loyaltyPoints: 82, favorite: 'Chicken sekuwa' },
   { id: 'cus-5', name: 'Nisha Adhikari', phone: '+977 985-114-3093', email: 'nisha.a@mail.com', totalOrders: 7, totalSpent: 6450, lastVisit: '1 week ago', loyaltyPoints: 64, favorite: 'Nepali thali' },
+  */
 ]
 
 export const initialExpenses: DemoExpense[] = [
+  /*
   { id: 'EXP-0814', category: 'Fresh produce', amount: 4200, date: 'Today, 10:16 AM', method: 'eSewa', reference: 'PUR-0892', notes: 'Morning market delivery' },
   { id: 'EXP-0813', category: 'Staff meal', amount: 1650, date: 'Today, 9:40 AM', method: 'Cash', reference: 'CASH-0321', notes: 'Breakfast for kitchen team' },
   { id: 'EXP-0812', category: 'Utilities', amount: 12400, date: 'Yesterday', method: 'Bank', reference: 'BILL-4412', notes: 'Monthly electricity' },
   { id: 'EXP-0811', category: 'Packaging', amount: 2850, date: 'Yesterday', method: 'Card', reference: 'POS-2089', notes: 'Takeaway boxes and bags' },
+  */
 ]
 
 export const initialIncome: DemoIncome[] = [
+  /*
   { id: 'INC-0318', source: 'Catering deposit', amount: 15000, date: 'Today, 11:10 AM', method: 'Bank', notes: 'Private dining, 18 Oct' },
   { id: 'INC-0317', source: 'Event booking', amount: 8000, date: 'Yesterday', method: 'eSewa', notes: 'Patio birthday booking' },
+  */
 ]
 
 export const initialPurchases: DemoPurchase[] = [
+  /*
   { id: 'PO-1028', supplier: 'Kathmandu Fresh Co.', itemName: 'Chicken breast', quantity: 12, unitCost: 420, amount: 5040, date: 'Today', status: 'Ordered', paymentStatus: 'Pending' },
   { id: 'PO-1027', supplier: 'Himalayan Pantry', itemName: 'Basmati rice', quantity: 25, unitCost: 145, amount: 3625, date: 'Yesterday', status: 'Received', paymentStatus: 'Paid' },
   { id: 'PO-1026', supplier: 'Dairy Valley', itemName: 'Paneer', quantity: 8, unitCost: 520, amount: 4160, date: '6 Oct 2026', status: 'Partially received', paymentStatus: 'Partially paid' },
+  */
 ]
 
 export const initialSuppliers: DemoSupplier[] = [
+  /*
   { id: 'SUP-018', name: 'Kathmandu Fresh Co.', contact: 'Ramesh Adhikari', phone: '+977 980-145-2110', category: 'Produce & poultry', balance: 5040, status: 'Active' },
   { id: 'SUP-014', name: 'Himalayan Pantry', contact: 'Sita Thapa', phone: '+977 984-227-9080', category: 'Dry goods', balance: 0, status: 'Active' },
   { id: 'SUP-012', name: 'Dairy Valley', contact: 'Amit Shrestha', phone: '+977 981-440-7321', category: 'Dairy', balance: 2080, status: 'Active' },
   { id: 'SUP-009', name: 'Valley Beverage Supply', contact: 'Kiran Rai', phone: '+977 985-113-0410', category: 'Beverages', balance: 0, status: 'On hold' },
+  */
 ]
 
 export const initialStaff: DemoStaff[] = [
+  /*
   { id: 'ST-04', name: 'Aarya K.C.', role: 'Manager', phone: '+977 980-123-4567', shift: '9:00 AM – 5:00 PM', status: 'On shift', initials: 'AK' },
   { id: 'ST-08', name: 'Suman Lama', role: 'Kitchen staff', phone: '+977 984-777-1200', shift: '10:00 AM – 6:00 PM', status: 'On shift', initials: 'SL' },
   { id: 'ST-12', name: 'Rita Shrestha', role: 'Cashier', phone: '+977 981-778-3490', shift: '11:00 AM – 7:00 PM', status: 'On break', initials: 'RS' },
   { id: 'ST-16', name: 'Kamal Thapa', role: 'Waiter', phone: '+977 986-701-4468', shift: '12:00 PM – 8:00 PM', status: 'On shift', initials: 'KT' },
   { id: 'ST-19', name: 'Mina Gurung', role: 'Waiter', phone: '+977 980-114-2089', shift: '12:00 PM – 8:00 PM', status: 'Off duty', initials: 'MG' },
+  */
 ]
 
 export function formatNpr(amount: number) {
