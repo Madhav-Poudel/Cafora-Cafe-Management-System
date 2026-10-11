@@ -6,6 +6,6 @@ export const runtime = 'nodejs'
 
 export async function GET() {
   const cookieStore = await cookies()
-  const user = getUserBySession(cookieStore.get(authCookie)?.value)
+  const user = await getUserBySession(cookieStore.get(authCookie)?.value)
   return user ? NextResponse.json({ user }) : NextResponse.json({ user: null }, { status: 401 })
 }

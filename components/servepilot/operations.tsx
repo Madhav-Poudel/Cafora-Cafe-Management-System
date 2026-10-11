@@ -86,7 +86,7 @@ export function OrdersView() {
                 <tbody>{visibleOrders.map((order) => <tr key={order.id} className="border-b border-border/70 last:border-0 hover:bg-[#fbfcfb]">
                   <td className="px-5 py-3.5"><button type="button" onClick={() => setSelectedOrder(order)} className="text-left"><span className="block text-[11px] font-semibold text-primary">{order.id}</span><span className="mt-1 block text-[9px] text-muted-foreground">{order.time}</span></button></td>
                   <td className="px-3 py-3.5"><span className="block text-[11px] font-medium">{order.customer}</span><span className="mt-1 block text-[9px] text-muted-foreground">{order.type === 'Dine in' ? order.table : 'Guest order'}</span></td>
-                  <td className="px-3 py-3.5"><span className="text-[10px]">{order.type}</span><span className="mt-1 block text-[9px] text-muted-foreground">{order.table !== '—' ? order.table : 'No table'}</span></td>
+                  <td className="px-3 py-3.5"><span className="text-[10px]">{order.type}</span><span className="mt-1 block text-[9px] text-muted-foreground">{order.table !== '-' ? order.table : 'No table'}</span></td>
                   <td className="max-w-[180px] px-3 py-3.5"><span className="block truncate text-[10px]">{order.items}</span><span className="mt-1 block text-[9px] text-muted-foreground">{order.lines?.reduce((sum, line) => sum + line.quantity, 0) ?? 1} items</span></td>
                   <td className="px-3 py-3.5"><StatusBadge status={order.paymentStatus} /></td>
                   <td className="numeric px-3 py-3.5 text-[10px] font-semibold">{formatNpr(order.amount)}</td>
@@ -156,7 +156,7 @@ export function PosView() {
     const newOrder = addOrder({
       time: new Intl.DateTimeFormat('en-NP', { hour: 'numeric', minute: '2-digit' }).format(new Date()),
       type: orderType,
-      table: orderType === 'Dine in' ? table : '—',
+      table: orderType === 'Dine in' ? table : '-',
       customer: customer.trim() || 'Walk-in guest',
       items: selectedProducts.map((line) => `${line.product.name}${line.quantity > 1 ? ` × ${line.quantity}` : ''}`).join(', '),
       amount: Math.round(total),
@@ -232,7 +232,7 @@ export function PosView() {
             </div>
             <div className="grid grid-cols-2 gap-2 px-4 pb-4"><Button type="button" variant="outline" disabled={!cart.length} onClick={holdOrder}>Hold order</Button><Button type="button" variant="secondary" disabled={!cart.length} onClick={() => createTicket(false)}><ChefHat data-icon="inline-start" />Send to kitchen</Button><Button type="button" className="col-span-2" disabled={!cart.length} onClick={() => setCheckoutOpen(true)}><CreditCard data-icon="inline-start" />Charge {formatNpr(total)}</Button></div>
           </Panel>
-          <p className="mt-2 text-center text-[9px] leading-4 text-muted-foreground">Demo checkout only — no real payment will be collected.</p>
+          <p className="mt-2 text-center text-[9px] leading-4 text-muted-foreground">Demo checkout only - no real payment will be collected.</p>
         </aside>
       </div>
       {checkoutOpen && <Modal title="Take payment" description={`Collect ${formatNpr(total)} for this order.`} onClose={() => setCheckoutOpen(false)} size="sm">
@@ -284,7 +284,7 @@ export function KitchenView() {
           return <section key={column.status} aria-label={column.title} className="min-w-[250px] rounded-xl border border-border bg-[#edf1ef] p-3">
             <div className="flex items-center justify-between gap-2 px-1 pb-3"><div><h2 className="text-xs font-semibold">{column.title}</h2><p className="mt-1 text-[9px] text-muted-foreground">{column.description}</p></div><span className="grid size-6 place-items-center rounded-md bg-white text-[10px] font-semibold text-primary">{columnOrders.length}</span></div>
             <div className="flex min-h-40 flex-col gap-2">{columnOrders.length === 0 ? <div className="grid min-h-32 place-items-center rounded-lg border border-dashed border-border bg-white/60 text-[10px] text-muted-foreground">Nothing in this column</div> : columnOrders.map((order) => <article key={order.id} className="rounded-xl border border-border bg-white p-3 shadow-[0_1px_2px_rgba(10,25,20,0.03)]">
-              <div className="flex items-start justify-between gap-2"><div><p className="text-[11px] font-semibold text-primary">{order.id}</p><p className="mt-1 text-[9px] text-muted-foreground">{order.time} <span className="px-1">·</span> {order.type}{order.table !== '—' ? ` · ${order.table}` : ''}</p></div><StatusBadge status={order.status} /></div>
+              <div className="flex items-start justify-between gap-2"><div><p className="text-[11px] font-semibold text-primary">{order.id}</p><p className="mt-1 text-[9px] text-muted-foreground">{order.time} <span className="px-1">·</span> {order.type}{order.table !== '-' ? ` · ${order.table}` : ''}</p></div><StatusBadge status={order.status} /></div>
               <div className="my-3 border-y border-border/70 py-2.5">{(order.lines ?? [{ name: order.items, quantity: 1, price: order.amount }]).map((line, index) => <p key={`${line.name}-${index}`} className="py-0.5 text-[10px]"><span className="mr-2 font-semibold text-primary">{line.quantity}×</span>{line.name}</p>)}</div>
               {order.specialInstructions && <p className="mb-3 rounded-md bg-accent px-2 py-1.5 text-[9px] leading-4 text-accent-foreground">{order.specialInstructions}</p>}
               <div className="flex items-center justify-between gap-2"><p className="truncate text-[9px] text-muted-foreground">{order.customer}</p>{column.status !== 'Completed' && <Button type="button" size="xs" onClick={() => { const status = nextKitchenStatus(order.status); updateOrderStatus(order.id, status); showToast(`${order.id} moved to ${status.toLowerCase()}.`) }}>{order.status === 'New' ? 'Start' : order.status === 'Preparing' ? 'Mark ready' : 'Complete'}<ArrowRight data-icon="inline-end" /></Button>}</div>

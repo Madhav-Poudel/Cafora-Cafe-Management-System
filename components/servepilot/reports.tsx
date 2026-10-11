@@ -83,7 +83,7 @@ export function ReportsView() {
       <MetricCard label="Sales in selected view" value={formatNpr(totalSales)} caption={`${filteredOrders.length} matching orders`} icon={<TrendingUp />} tone="teal" />
       <MetricCard label="Orders" value={String(filteredOrders.length)} caption={`Current sample · ${range.toLowerCase()}`} icon={<ClipboardList />} tone="orange" />
       <MetricCard label="Average order value" value={formatNpr(averageOrder)} caption="Across matching orders" icon={<CreditCard />} tone="blue" />
-      <MetricCard label="Top selling item" value={topProducts[0]?.name ?? '—'} caption={topProducts[0] ? `${topProducts[0].quantity} items sold` : 'No matching sales'} icon={<BarChart3 />} tone="green" />
+      <MetricCard label="Top selling item" value={topProducts[0]?.name ?? '-'} caption={topProducts[0] ? `${topProducts[0].quantity} items sold` : 'No matching sales'} icon={<BarChart3 />} tone="green" />
     </section>
 
     <section className="grid gap-4 xl:grid-cols-[1.4fr_0.8fr]">

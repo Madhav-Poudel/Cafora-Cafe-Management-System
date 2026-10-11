@@ -6,7 +6,7 @@ export const runtime = 'nodejs'
 
 export async function POST() {
   const cookieStore = await cookies()
-  deleteSession(cookieStore.get(authCookie)?.value)
+  await deleteSession(cookieStore.get(authCookie)?.value)
   const response = NextResponse.json({ ok: true })
   response.cookies.delete(authCookie)
   return response

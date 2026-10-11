@@ -158,7 +158,7 @@ export const initialOrders: DemoOrder[] = [
     id: 'SP-2488',
     time: '12:36 PM',
     type: 'Takeaway',
-    table: '—',
+    table: '-',
     customer: 'Walk-in guest',
     items: 'Nepali thali, Lemon soda',
     amount: 890,
@@ -173,7 +173,7 @@ export const initialOrders: DemoOrder[] = [
     id: 'SP-2487',
     time: '12:27 PM',
     type: 'Delivery',
-    table: '—',
+    table: '-',
     customer: 'Rohan Karki',
     items: 'Chicken sekuwa, Steamed momo',
     amount: 1440,
@@ -204,7 +204,7 @@ export const initialOrders: DemoOrder[] = [
     id: 'SP-2485',
     time: '12:04 PM',
     type: 'Online',
-    table: '—',
+    table: '-',
     customer: 'Prakriti Rai',
     items: 'Veg chowmein, Iced americano',
     amount: 720,
@@ -415,11 +415,11 @@ export const initialSuppliers: DemoSupplier[] = [
 
 export const initialStaff: DemoStaff[] = [
   /*
-  { id: 'ST-04', name: 'Aarya K.C.', role: 'Manager', phone: '+977 980-123-4567', shift: '9:00 AM – 5:00 PM', status: 'On shift', initials: 'AK' },
-  { id: 'ST-08', name: 'Suman Lama', role: 'Kitchen staff', phone: '+977 984-777-1200', shift: '10:00 AM – 6:00 PM', status: 'On shift', initials: 'SL' },
-  { id: 'ST-12', name: 'Rita Shrestha', role: 'Cashier', phone: '+977 981-778-3490', shift: '11:00 AM – 7:00 PM', status: 'On break', initials: 'RS' },
-  { id: 'ST-16', name: 'Kamal Thapa', role: 'Waiter', phone: '+977 986-701-4468', shift: '12:00 PM – 8:00 PM', status: 'On shift', initials: 'KT' },
-  { id: 'ST-19', name: 'Mina Gurung', role: 'Waiter', phone: '+977 980-114-2089', shift: '12:00 PM – 8:00 PM', status: 'Off duty', initials: 'MG' },
+  { id: 'ST-04', name: 'Aarya K.C.', role: 'Manager', phone: '+977 980-123-4567', shift: '9:00 AM - 5:00 PM', status: 'On shift', initials: 'AK' },
+  { id: 'ST-08', name: 'Suman Lama', role: 'Kitchen staff', phone: '+977 984-777-1200', shift: '10:00 AM - 6:00 PM', status: 'On shift', initials: 'SL' },
+  { id: 'ST-12', name: 'Rita Shrestha', role: 'Cashier', phone: '+977 981-778-3490', shift: '11:00 AM - 7:00 PM', status: 'On break', initials: 'RS' },
+  { id: 'ST-16', name: 'Kamal Thapa', role: 'Waiter', phone: '+977 986-701-4468', shift: '12:00 PM - 8:00 PM', status: 'On shift', initials: 'KT' },
+  { id: 'ST-19', name: 'Mina Gurung', role: 'Waiter', phone: '+977 980-114-2089', shift: '12:00 PM - 8:00 PM', status: 'Off duty', initials: 'MG' },
   */
 ]
 

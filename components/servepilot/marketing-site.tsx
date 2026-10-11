@@ -428,7 +428,7 @@ export function MarketingSite() {
           <div className="relative z-10 max-w-2xl">
             <p className="inline-flex items-center gap-2 rounded-full border border-primary/15 bg-white/85 px-3 py-1.5 text-[10px] font-semibold uppercase tracking-[0.12em] text-primary shadow-sm"><span className="size-1.5 animate-pulse rounded-full bg-brand-orange" /> The calm behind a great service</p>
             <h1 className="mt-6 text-[45px] font-semibold leading-[0.99] tracking-[-0.065em] text-foreground sm:text-[60px] lg:text-[70px]">Run a better<br className="hidden sm:block" /> <span className="bg-gradient-to-r from-primary via-[#b41034] to-brand-orange bg-clip-text text-transparent">restaurant day.</span></h1>
-            <p className="mt-5 max-w-lg text-[16px] leading-7 text-muted-foreground sm:text-[18px] sm:leading-8">Orders, kitchen, stock, and your team — all in one place. Spend less time juggling tabs and more time making guests feel welcome.</p>
+            <p className="mt-5 max-w-lg text-[16px] leading-7 text-muted-foreground sm:text-[18px] sm:leading-8">Orders, kitchen, stock, and your team - all in one place. Spend less time juggling tabs and more time making guests feel welcome.</p>
             <div className="mt-7 flex flex-col gap-3 sm:flex-row sm:items-center">
               <Link href="/signup" className="inline-flex h-12 items-center justify-center gap-2 rounded-xl bg-primary px-5 text-sm font-semibold text-white shadow-[0_12px_24px_-12px_rgba(220,20,60,0.7)] transition-all hover:-translate-y-0.5 hover:bg-brand-800">Start your free trial <ArrowRight className="size-4" aria-hidden="true" /></Link>
               <Link href="/app/dashboard" className="inline-flex h-12 items-center justify-center gap-2 rounded-xl border border-border bg-white/80 px-5 text-sm font-semibold text-foreground shadow-sm transition-all hover:-translate-y-0.5 hover:bg-white">Explore the demo <ArrowUpRight className="size-4" aria-hidden="true" /></Link>
@@ -472,7 +472,7 @@ export function MarketingSite() {
         </section>
 
         <section id="features" className="page-container scroll-mt-24 py-20 sm:py-24">
-          <div className="mx-auto mb-10 max-w-2xl text-center"><p className="text-[10px] font-semibold uppercase tracking-[0.14em] text-brand-orange">One place, fewer loose ends</p><h2 className="mt-3 text-[34px] font-semibold leading-tight tracking-[-0.055em] sm:text-[46px]">The work behind the welcome.</h2><p className="mt-4 text-sm leading-6 text-muted-foreground">A connected set of tools for the work guests see — and all the work they don&apos;t.</p></div>
+          <div className="mx-auto mb-10 max-w-2xl text-center"><p className="text-[10px] font-semibold uppercase tracking-[0.14em] text-brand-orange">One place, fewer loose ends</p><h2 className="mt-3 text-[34px] font-semibold leading-tight tracking-[-0.055em] sm:text-[46px]">The work behind the welcome.</h2><p className="mt-4 text-sm leading-6 text-muted-foreground">A connected set of tools for the work guests see - and all the work they don&apos;t.</p></div>
           <FeatureGrid />
           <div className="mt-7 text-center"><Link href="/features" className="inline-flex items-center gap-2 text-sm font-semibold text-primary">Explore every feature <ArrowRight className="size-4" aria-hidden="true" /></Link></div>
         </section>

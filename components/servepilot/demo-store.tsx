@@ -89,6 +89,65 @@ export function DemoStoreProvider({ children }: { children: ReactNode }) {
   const [staff, setStaff] = useState(initialStaff)
   const [branch, setBranch] = useState('Thamel Kitchen')
   const [toast, setToast] = useState<string | null>(null)
+  const [isHydrated, setIsHydrated] = useState(false)
+  const showToast = useCallback((message: string) => setToast(message), [])
+
+  useEffect(() => {
+    let cancelled = false
+    fetch('/api/workspace')
+      .then(async (response) => {
+        if (!response.ok) throw new Error('Unable to load workspace')
+        return response.json()
+      })
+      .then(({ workspace }) => {
+        if (cancelled || !workspace) {
+          if (!cancelled) setIsHydrated(true)
+          return
+        }
+        if (workspace.orders) setOrders(workspace.orders)
+        if (workspace.menuItems) setMenuItems(workspace.menuItems)
+        if (workspace.categories) setCategories(workspace.categories)
+        if (workspace.inventory) setInventory(workspace.inventory)
+        if (workspace.tables) setTables(workspace.tables)
+        if (workspace.customers) setCustomers(workspace.customers)
+        if (workspace.expenses) setExpenses(workspace.expenses)
+        if (workspace.income) setIncome(workspace.income)
+        if (workspace.purchases) setPurchases(workspace.purchases)
+        if (workspace.suppliers) setSuppliers(workspace.suppliers)
+        if (workspace.staff) setStaff(workspace.staff)
+        if (workspace.branch) setBranch(workspace.branch)
+        setIsHydrated(true)
+      })
+      .catch(() => showToast('Could not load your saved workspace data.'))
+    return () => { cancelled = true }
+  }, [showToast])
+
+  const workspace = useMemo(() => ({
+    orders,
+    menuItems,
+    categories,
+    inventory,
+    tables,
+    customers,
+    expenses,
+    income,
+    purchases,
+    suppliers,
+    staff,
+    branch,
+  }), [orders, menuItems, categories, inventory, tables, customers, expenses, income, purchases, suppliers, staff, branch])
+
+  useEffect(() => {
+    if (!isHydrated) return
+    const timeout = window.setTimeout(() => {
+      fetch('/api/workspace', {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(workspace),
+      }).catch(() => showToast('Could not save your latest changes. Please try again.'))
+    }, 350)
+    return () => window.clearTimeout(timeout)
+  }, [isHydrated, workspace])
 
   useEffect(() => {
     if (!toast) return
@@ -96,13 +155,11 @@ export function DemoStoreProvider({ children }: { children: ReactNode }) {
     return () => window.clearTimeout(timeout)
   }, [toast])
 
-  const showToast = useCallback((message: string) => setToast(message), [])
-
   const addOrder = useCallback((order: Omit<DemoOrder, 'id'>) => {
     const savedOrder = { ...order, id: makeId('SP') }
-    showToast('Orders are disabled until your menu and workspace are configured.')
+    setOrders((current) => [savedOrder, ...current])
     return savedOrder
-  }, [showToast])
+  }, [])
 
   const updateOrderStatus = useCallback((id: string, status: OrderStatus) => {
     setOrders((current) => current.map((order) => order.id === id ? { ...order, status } : order))

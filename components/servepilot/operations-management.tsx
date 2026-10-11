@@ -322,12 +322,12 @@ export function CustomersView() {
 }
 
 function StaffModal({ onClose, onSave }: { onClose: () => void; onSave: (member: Omit<DemoStaff, 'id'>) => void }) {
-  const [form, setForm] = useState({ name: '', role: 'Waiter', phone: '', shift: 'Morning · 7:00 AM–3:00 PM' })
+  const [form, setForm] = useState({ name: '', role: 'Waiter', phone: '', shift: 'Morning · 7:00 AM-3:00 PM' })
   return <Modal title="Add team member" description="Add a team profile and assign an operational role." onClose={onClose} size="sm"><form className="flex flex-col gap-4" onSubmit={(event) => { event.preventDefault(); const name = form.name.trim(); onSave({ ...form, name, phone: form.phone.trim(), status: 'Off duty', initials: name.split(/\s+/).map((part) => part[0]).join('').slice(0, 2).toUpperCase() }) }}>
     <FormField label="Full name"><input autoFocus className={controlClassName} maxLength={70} onChange={(event) => setForm({ ...form, name: event.target.value })} required value={form.name} /></FormField>
     <FormField label="Role"><select className={controlClassName} onChange={(event) => setForm({ ...form, role: event.target.value })} value={form.role}>{roleNames.filter((role) => role !== 'Owner').map((role) => <option key={role}>{role}</option>)}</select></FormField>
     <FormField label="Phone"><input className={controlClassName} onChange={(event) => setForm({ ...form, phone: event.target.value })} required type="tel" value={form.phone} /></FormField>
-    <FormField label="Shift"><select className={controlClassName} onChange={(event) => setForm({ ...form, shift: event.target.value })} value={form.shift}>{['Morning · 7:00 AM–3:00 PM', 'Midday · 11:00 AM–7:00 PM', 'Evening · 3:00 PM–11:00 PM', 'Flexible'].map((shift) => <option key={shift}>{shift}</option>)}</select></FormField>
+    <FormField label="Shift"><select className={controlClassName} onChange={(event) => setForm({ ...form, shift: event.target.value })} value={form.shift}>{['Morning · 7:00 AM-3:00 PM', 'Midday · 11:00 AM-7:00 PM', 'Evening · 3:00 PM-11:00 PM', 'Flexible'].map((shift) => <option key={shift}>{shift}</option>)}</select></FormField>
     <div className="flex justify-end gap-2 border-t border-border pt-3"><Button onClick={onClose} type="button" variant="outline">Cancel</Button><Button type="submit">Add member</Button></div>
   </form></Modal>
 }

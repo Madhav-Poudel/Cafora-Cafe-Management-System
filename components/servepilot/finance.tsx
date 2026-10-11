@@ -118,7 +118,7 @@ export function FinanceView() {
   const [entryKind, setEntryKind] = useState<LedgerKind | null>(null)
 
   const rows: LedgerRow[] = useMemo(() => [
-    ...income.map((entry) => ({ id: entry.id, label: entry.source, kind: 'Income' as const, amount: entry.amount, date: entry.date, method: entry.method, reference: '—', notes: entry.notes })),
+    ...income.map((entry) => ({ id: entry.id, label: entry.source, kind: 'Income' as const, amount: entry.amount, date: entry.date, method: entry.method, reference: '-', notes: entry.notes })),
     ...expenses.map((entry) => ({ id: entry.id, label: entry.category, kind: 'Expense' as const, amount: entry.amount, date: entry.date, method: entry.method, reference: entry.reference, notes: entry.notes })),
   ].sort((a, b) => b.id.localeCompare(a.id)), [expenses, income])
 
@@ -139,7 +139,7 @@ export function FinanceView() {
 
   function saveEntry(entry: EntryFormValue) {
     if (entryKind === 'Expense') {
-      addExpense({ category: entry.label, amount: entry.amount, date: entry.date, method: entry.method, reference: entry.reference || '—', notes: entry.notes })
+      addExpense({ category: entry.label, amount: entry.amount, date: entry.date, method: entry.method, reference: entry.reference || '-', notes: entry.notes })
       showToast(`${entry.label} expense recorded.`)
     } else {
       addIncome({ source: entry.label, amount: entry.amount, date: entry.date, method: entry.method, notes: entry.notes })

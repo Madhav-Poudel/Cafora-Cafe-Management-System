@@ -15,7 +15,7 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: 'Name, restaurant, email and an 8-character password are required.' }, { status: 400 })
   }
 
-  const user = createUser({ name, restaurant, email, password, phone })
+  const user = await createUser({ name, restaurant, email, password, phone })
   if (!user) return NextResponse.json({ error: 'An account with this email already exists.' }, { status: 409 })
 
   return NextResponse.json({ user }, { status: 201 })

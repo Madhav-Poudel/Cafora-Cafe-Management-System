@@ -12,7 +12,7 @@ const poppins = Poppins({
 
 export const metadata: Metadata = {
   title: {
-    default: 'Cafora — Restaurant operations, simplified',
+    default: 'Cafora - Restaurant operations, simplified',
     template: '%s | Cafora',
   },
   description:
@@ -34,7 +34,7 @@ export const metadata: Metadata = {
     apple: '/apple-icon.png',
   },
   openGraph: {
-    title: 'Cafora — Restaurant operations, simplified',
+    title: 'Cafora - Restaurant operations, simplified',
     description:
       'Manage service, stock, people, and performance from one thoughtful restaurant workspace.',
     siteName: 'Cafora',

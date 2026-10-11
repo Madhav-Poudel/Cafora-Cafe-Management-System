@@ -58,7 +58,7 @@ export function SettingsView() {
   const { branch, setBranch, showToast } = useDemoStore()
   const [activeSection, setActiveSection] = useState<SectionName>('Restaurant profile')
   const [profile, setProfile] = useState({ name: 'Thamel Kitchen', businessType: 'Restaurant', phone: '+977 1-452 2800', email: 'hello@thamelkitchen.example', address: 'Thamel, Kathmandu, Nepal' })
-  const [business, setBusiness] = useState({ currency: 'NPR — Nepalese Rupee', timezone: 'Asia/Kathmandu', dateFormat: 'DD MMM YYYY', language: 'English' })
+  const [business, setBusiness] = useState({ currency: 'NPR - Nepalese Rupee', timezone: 'Asia/Kathmandu', dateFormat: 'DD MMM YYYY', language: 'English' })
   const [taxRate, setTaxRate] = useState('13')
   const [taxInclusive, setTaxInclusive] = useState(false)
   const [invoicePrefix, setInvoicePrefix] = useState('SP')
@@ -91,7 +91,7 @@ export function SettingsView() {
     </div>
 
     if (activeSection === 'Business settings') return <form className="grid gap-4 sm:grid-cols-2" onSubmit={save}>
-      <LabeledField htmlFor="business-currency" label="Currency"><select className={controlClassName} id="business-currency" onChange={(event) => setBusiness({ ...business, currency: event.target.value })} value={business.currency}><option>NPR — Nepalese Rupee</option><option>USD — US Dollar</option><option>INR — Indian Rupee</option></select></LabeledField>
+      <LabeledField htmlFor="business-currency" label="Currency"><select className={controlClassName} id="business-currency" onChange={(event) => setBusiness({ ...business, currency: event.target.value })} value={business.currency}><option>NPR - Nepalese Rupee</option><option>USD - US Dollar</option><option>INR - Indian Rupee</option></select></LabeledField>
       <LabeledField htmlFor="business-timezone" label="Time zone"><select className={controlClassName} id="business-timezone" onChange={(event) => setBusiness({ ...business, timezone: event.target.value })} value={business.timezone}><option>Asia/Kathmandu</option><option>Asia/Kolkata</option><option>UTC</option></select></LabeledField>
       <LabeledField htmlFor="business-date" label="Date format"><select className={controlClassName} id="business-date" onChange={(event) => setBusiness({ ...business, dateFormat: event.target.value })} value={business.dateFormat}><option>DD MMM YYYY</option><option>YYYY-MM-DD</option><option>MM/DD/YYYY</option></select></LabeledField>
       <LabeledField htmlFor="business-language" label="Workspace language"><select className={controlClassName} id="business-language" onChange={(event) => setBusiness({ ...business, language: event.target.value })} value={business.language}><option>English</option><option>Nepali</option></select></LabeledField>
